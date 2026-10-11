@@ -3,6 +3,7 @@
 把实体桌游《凡人修仙传：结婴之战》复刻成的**可联机网页版桌游**：2～4 人、房间制、**零 npm 依赖**、
 纯 Node 内置模块 + 原生前端，一条命令起服务，手机/平板扫码就能一起玩。
 
+> 仓库：<https://github.com/linhun2b14/fanren-jieying>　·　部署教程：[`docs/部署教程.md`](docs/部署教程.md)
 > 规则来自官方规则讲解视频的逐句转写 + 实物卡面逐字校对，不是臆造；所有"卡文没写清"的地方都在
 > [`docs/规则文档.md`](docs/规则文档.md) 里以 `【裁定】` 标记逐条记录（房规唯一真相源）。
 
@@ -13,7 +14,7 @@
 需要 **Node.js ≥ 18**（开发用 v24），**没有任何 npm 依赖**。
 
 ```bash
-git clone <本仓库地址> fanren-jieying
+git clone https://github.com/linhun2b14/fanren-jieying.git
 cd fanren-jieying
 node server/index.js            # 默认监听 0.0.0.0:8094
 ```

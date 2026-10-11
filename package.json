@@ -4,6 +4,11 @@
   "private": true,
   "description": "凡人修仙传·结婴之战 · 网页版（零依赖 Node + SSE 联机桌游，2~4 人）",
   "keywords": ["board-game", "card-game", "sse", "zero-dependency", "nodejs"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linhun2b14/fanren-jieying.git"
+  },
+  "homepage": "https://github.com/linhun2b14/fanren-jieying#readme",
   "engines": {
     "node": ">=18"
   },
@@ -14,6 +19,7 @@
     "test:all": "node tests/run-all.js",
     "cards:verify": "node tools/verify-dsl.js && node tools/lint-cards.js",
     "cards:list": "node tools/gen-cardlist.js",
-    "deploy-check": "node tools/deploy-check.js"
+    "deploy-check": "node tools/deploy-check.js",
+    "sync-public": "node tools/sync-public.js"
   }
 }

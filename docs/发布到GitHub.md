@@ -48,20 +48,29 @@ git push -u origin main
 或者在 GitHub 建一个 **fine-grained PAT**（只给这一个仓库的 `Contents: Read and write`），
 推送时用户名填账号、密码填 PAT。**别把 PAT 写进任何文件里。**
 
-## 三、后续更新
+## 三、后续更新（一条命令）
+
+公开仓库已经建好（`origin` 已配置、凭据已记住）之后，每次发版就一条命令：
 
 ```powershell
 cd <开发仓库>
-node tools\export-public.js                 # 重新生成（目标目录里已有 .git 会**保留**，只刷新工作区）
-cd ..\fanren-jieying-public
-git add -A
-git commit -m "sync: <这次改了什么>"
-git push
+node tools\sync-public.js "sync: 这次改了什么"
 ```
+
+它依次做：**导出干净快照**（含四道复检，红就中止）→ 看工作区有没有变化（没变化就不产生空提交）
+→ `git add -A && git commit && git push`。也可以 `npm run sync-public -- "提交说明"`。
 
 > 公开仓库的 `.git` 只有"每次快照"的提交；开发仓库的逐条历史（含设计过程、ops 日志）
 > 仍然只在本机。想公开完整历史的话，得先做一次 `git filter-repo` 式的历史清洗 ——
 > 现在这套快照流程就是为了避免那件事。
+
+### 手动版（等价）
+
+```powershell
+node tools\export-public.js
+cd ..\fanren-jieying-public
+git add -A && git commit -m "sync: …" && git push
+```
 
 ## 四、发布前检查清单
 
