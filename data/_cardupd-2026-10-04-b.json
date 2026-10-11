@@ -1,0 +1,92 @@
+{
+  "add": [
+    {
+      "deck": "treasure", "name": "紫铖兜", "type": "equip", "cost": 3, "realm": 2, "count": 2,
+      "cat": "装备类古宝",
+      "text": "当你受到任意伤害时，投掷1次骰子，点数为1、6则抵消该次伤害。\n（装备时消耗3点【法力值】）",
+      "effects": [{ "op": "damage_save_dice", "faces": [1, 6], "event": "hurt", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "降尘丹", "type": "consume", "cost": 0, "realm": 2, "count": 2,
+      "cat": "消耗类符箓",
+      "text": "晋升时使用，使本次晋升所需消耗的【灵气值】-1，若将此【宝物牌】放入【弃牌堆】，则可抽取1张【灵气牌】。",
+      "effects": [{ "op": "promote_discount_once", "value": 1, "on": "consume", "alsoDrawQi": 1, "event": "promote", "phase": "before", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "血色披风", "type": "equip", "cost": 0, "realm": 1, "count": 2, "equipCost": 2,
+      "cat": "装备类古宝",
+      "text": "当你受到任意伤害时，恢复1点【法力值】。\n（装备时消耗2点【法力值】）",
+      "effects": [{ "op": "mana", "value": 1, "event": "hurt", "subject": "self", "auto": true }]
+    },
+    {
+      "deck": "treasure", "name": "七鬼珠", "type": "equip", "cost": 2, "realm": 1, "count": 2,
+      "cat": "装备类法宝",
+      "text": "在对战中出牌阶段使用，使本场对战中可额外投掷1次骰子，取结果最大值。\n（装备时不消耗【法力值】）",
+      "effects": [
+        { "when": "standing", "op": "reroll_dice", "value": 1 },
+        { "op": "enable_equip_combat", "manaCost": 2, "event": "combatOpt", "subject": "self" }
+      ]
+    },
+    {
+      "deck": "treasure", "name": "千重峰", "type": "consume", "cost": 5, "realm": 1, "count": 2,
+      "cat": "消耗类古宝",
+      "text": "在自己的回合使用，指定任意一位修士，让对方受到3点伤害。",
+      "effects": [{ "op": "damage_target", "value": 3, "event": "useCard", "subject": "self", "phase": "after" }]
+    },
+    {
+      "deck": "treasure", "name": "雷火锥", "type": "consume", "cost": 1, "realm": 1, "count": 2,
+      "cat": "消耗类古宝",
+      "text": "在任意回合使用，使任意1张【消耗类法术牌】无效。",
+      "effects": [{ "op": "nullify_enemy_card", "block": "法术牌", "event": "useCard", "phase": "before", "subject": "foe" }]
+    },
+    {
+      "deck": "treasure", "name": "筑基丹", "type": "consume", "cost": 0, "realm": 1, "count": 3,
+      "cat": "消耗类符箓",
+      "text": "在自己的回合使用，抽取1张【灵气牌】。",
+      "effects": [{ "op": "draw_qi", "value": 1, "event": "useCard", "subject": "self", "phase": "after" }]
+    },
+    {
+      "deck": "companion", "name": "曲魂", "type": "companion", "cost": null, "realm": 0, "count": 2, "slots": 1,
+      "cat": "人傀", "absorb": 2,
+      "text": "此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": []
+    },
+    {
+      "deck": "companion", "name": "钟吾", "type": "companion", "cost": null, "realm": 0, "count": 2, "slots": 1,
+      "cat": "修士",
+      "text": "当你受到任意伤害时，投掷1次骰子，点数为5、6则抵消该次伤害。",
+      "effects": [{ "op": "damage_save_dice", "faces": [5, 6], "event": "hurt", "subject": "self" }]
+    }
+  ],
+  "update": [
+    {
+      "name": "离龟",
+      "patch": {
+        "text": "●此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。 ●放置此【同行者】后，额外获得1次【闭关】机会。"
+      }
+    },
+    {
+      "name": "蛮胡子",
+      "patch": {
+        "text": "●若【生命值】≥4点，在对战时，骰子点数+1（最高为6点）。 ●若【生命值】≤3点，在对战时，【战力值】+1。",
+        "effects": [
+          { "when": "standing", "op": "dice_bonus", "value": 1, "cap": 6, "if": { "hp": { "gte": 4 } } },
+          { "when": "standing", "op": "combat_bonus", "value": 1, "if": { "hp": { "lte": 3 } } }
+        ]
+      }
+    },
+    {
+      "name": "青竹蜂云剑",
+      "patch": {
+        "cost": 2,
+        "text": "此【宝物牌】可使用2次，在对战中使用，使本次对战自身的【战力值】+1。（若已装备【青竹蜂云剑】，将此【宝物牌】放置于【青竹蜂云剑】上，即可持续装备。）\n（装备时不消耗【法力值】）",
+        "note": "卡面「可使用2次」——引擎暂未按次数限制（数据留待实现）",
+        "effects": [
+          { "when": "standing", "op": "combat_bonus", "value": 1 },
+          { "op": "enable_equip_combat", "manaCost": 2, "event": "combatOpt", "subject": "self" }
+        ]
+      }
+    }
+  ],
+  "count": []
+}

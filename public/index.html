@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#070b0e" />
+  <meta name="description" content="凡人修仙传：结婴之战 —— 网页版桌游" />
+  <title>凡人修仙传 · 结婴之战</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= 水墨背景（纯 CSS 渐变，无外部图片） ================= -->
+  <div class="ink-bg" aria-hidden="true">
+    <span class="ink-blob b1"></span>
+    <span class="ink-blob b2"></span>
+    <span class="ink-blob b3"></span>
+    <span class="ink-ridge r1"></span>
+    <span class="ink-ridge r2"></span>
+    <span class="ink-grain"></span>
+  </div>
+
+  <!-- 飘字 / 横幅动画层 -->
+  <div id="banner-layer" class="banner-layer" aria-hidden="true"></div>
+  <!-- Toast 层 -->
+  <div id="toast-layer" class="toast-layer" role="status" aria-live="polite"></div>
+
+  <!-- ==================================================================
+       视图 1 · 大厅
+       ================================================================== -->
+  <main id="view-lobby" class="view view-lobby">
+    <header class="brand">
+      <div class="brand-seal" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34"><path d="M24 4l4.2 9.6L38 15l-7 6.6 1.8 9.7L24 26.6 15.2 31.3 17 21.6 10 15l9.8-1.4z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <b>婴</b>
+      </div>
+      <h1 class="brand-title">凡人修仙传<span class="dot">·</span>结婴之战</h1>
+      <p class="brand-sub">凡人 → 炼气期 → 筑基期 → 结丹期 → 元婴期</p>
+      <p class="brand-sub2">率先结成元婴者问鼎此局；四方血战，最后一位存活者亦可称尊。</p>
+    </header>
+
+    <section class="lobby-card">
+      <label class="field">
+        <span class="field-label">道号（昵称）</span>
+        <input id="input-name" class="input" type="text" maxlength="12" placeholder="如：韩立" autocomplete="off" spellcheck="false" />
+      </label>
+
+      <button id="btn-create" class="btn btn-gold btn-lg" type="button">开宗立派 · 创建房间</button>
+
+      <div class="or"><span>或</span></div>
+
+      <label class="field">
+        <span class="field-label">房间码</span>
+        <input id="input-room" class="input input-code" type="text" maxlength="4" placeholder="ABCD" autocomplete="off" spellcheck="false" />
+      </label>
+      <button id="btn-join" class="btn btn-cyan btn-lg" type="button">凭码入席 · 加入房间</button>
+
+      <button id="btn-reconnect" class="btn btn-ghost hidden" type="button"></button>
+
+      <!-- 另一个窗口正坐着这个座位时的提示（见 app.js §3「会话按窗口存」） -->
+      <p id="lobby-notice" class="lobby-notice hidden"></p>
+
+      <p class="hint">2～4 人对局。座位按**窗口**记：同一个浏览器可以开多个窗口、一个窗口一个玩家，刷新各回各的座位。</p>
+    </section>
+
+    <footer class="lobby-foot">纯原生 HTML / CSS / JS · 完全离线可用 · 房间与牌局由本机服务端推送</footer>
+  </main>
+
+  <!-- ==================================================================
+       视图 2 · 房间（等待开局）
+       ================================================================== -->
+  <main id="view-room" class="view view-room hidden">
+    <section class="room-card">
+      <header class="room-head">
+        <h2>聚灵结庐</h2>
+        <p class="muted">把房间码告知同道，2～4 人齐备即可开局。</p>
+      </header>
+
+      <div class="room-code-row">
+        <span class="room-code-label">房间码</span>
+        <b id="room-code" class="room-code">----</b>
+        <button id="btn-copy-room" class="btn btn-mini btn-cyan" type="button">复制</button>
+      </div>
+
+      <ul id="room-seats" class="room-seats"></ul>
+
+      <div class="room-foot">
+        <span id="room-hint" class="hint"></span>
+        <div class="room-actions">
+          <button id="btn-start" class="btn btn-gold hidden" type="button">开仙门 · 开始游戏</button>
+          <button id="btn-leave-room" class="btn btn-ghost" type="button">离开房间</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================================================================
+       视图 3 · 牌桌
+       ================================================================== -->
+  <main id="view-table" class="view view-table hidden">
+    <header class="topbar">
+      <div class="tb-left">
+        <span class="chip chip-room">房间 <b id="tb-room">----</b>
+          <button id="btn-copy-room-tb" class="mini" type="button" title="复制房间码">复制</button>
+        </span>
+        <span class="chip" id="tb-round">第 1 轮</span>
+        <span class="chip" id="tb-piles">牌堆 0/0</span>
+      </div>
+
+      <div class="tb-center">
+        <div id="tb-turn" class="turn-banner">等待开局</div>
+      </div>
+
+      <div class="tb-right">
+        <span class="chip chip-me" id="tb-me">我</span>
+        <span class="conn" id="tb-conn"><i></i>连接中</span>
+        <button id="btn-help" class="mini" type="button">规则</button>
+        <button id="btn-leave" class="mini" type="button">离开</button>
+      </div>
+    </header>
+
+    <div class="table-main">
+      <!-- ============ 左：对敌（上） / 我方（下） ============ -->
+      <div class="table-board">
+        <!-- 对敌：按人数居中等比缩放 -->
+        <section class="foe-row" id="foe-row" aria-label="对敌面板">
+          <div id="foe-grid" class="board-row"></div>
+        </section>
+
+        <!-- 我方：放大，按实物板子完整呈现 -->
+        <section class="me-row" id="me-row" aria-label="我方面板">
+          <div id="me-grid" class="board-row"></div>
+        </section>
+      </div>
+
+      <!-- ============ 右：竖向信息栏 ============ -->
+      <aside class="side-panel" aria-label="信息栏">
+        <!-- 上：每种牌组的数量信息 + 弃牌堆入口 -->
+        <section class="panel deck-panel">
+          <h3 class="panel-title">牌组数量 <span class="muted">抽牌堆 / 弃牌堆</span></h3>
+          <div id="deck-list" class="deck-list"></div>
+          <div class="pile-actions">
+            <button id="btn-view-discard" class="btn btn-mini btn-cyan" type="button">查看弃牌堆</button>
+          </div>
+        </section>
+
+        <!-- 下：游戏日志（每个阶段都会显示） -->
+        <section class="panel log-panel">
+          <h3 class="panel-title">游戏日志 <span class="muted" id="log-count"></span></h3>
+          <div id="log-list" class="log-list"></div>
+        </section>
+      </aside>
+    </div>
+
+    <!-- 底部：操作区 + 手牌 -->
+    <footer class="bottom-bar">
+      <div class="action-strip">
+        <div id="action-bar" class="action-bar"></div>
+        <div id="target-hint" class="target-hint hidden">
+          <span id="target-hint-text">请选择目标玩家</span>
+          <button id="btn-cancel-target" class="btn btn-mini btn-ghost" type="button">取消</button>
+        </div>
+      </div>
+
+      <div class="hand-wrap">
+        <div class="hand-head">
+          <span class="hand-title">我的手牌</span>
+          <span id="hand-meta" class="muted"></span>
+          <button id="btn-hand-help" class="mini" type="button" title="查看规则速览">?</button>
+        </div>
+        <div id="hand-zone" class="hand-zone"></div>
+      </div>
+
+      <!-- 手牌悬停放大镜：指到哪张牌，就在它上方弹出这张牌的**高清大图**（指针事件穿透，不挡点击） -->
+      <div id="hand-zoom" class="hand-zoom hidden" aria-hidden="true"></div>
+    </footer>
+  </main>
+
+  <!-- ==================================================================
+       对战面板（覆盖层）
+       ================================================================== -->
+  <div id="combat-overlay" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal combat-modal">
+      <header class="combat-head">
+        <h2 id="combat-title">对战</h2>
+        <p id="combat-sub" class="muted"></p>
+        <p id="combat-dice-rule" class="dice-rule"></p>
+      </header>
+
+      <div class="combat-arena">
+        <div id="combat-side-a" class="combat-side"></div>
+        <div class="combat-vs" aria-hidden="true">
+          <span class="vs-seal">战</span>
+          <span id="combat-score" class="combat-score hidden"></span>
+          <span class="vs-line"></span>
+        </div>
+        <div id="combat-side-b" class="combat-side"></div>
+      </div>
+
+      <div id="combat-steps" class="combat-steps"></div>
+      <div id="combat-hand" class="combat-hand"></div>
+      <div id="combat-actions" class="combat-actions"></div>
+    </div>
+  </div>
+
+  <!-- ==================================================================
+       结算画面
+       ================================================================== -->
+  <div id="over-overlay" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal over-modal">
+      <div class="over-seal" id="over-seal">婴</div>
+      <h2 id="over-title">元婴已成</h2>
+      <p id="over-sub" class="muted"></p>
+      <ol id="over-rank" class="over-rank"></ol>
+      <div class="over-actions">
+        <button id="btn-again" class="btn btn-gold hidden" type="button">再来一局</button>
+        <span id="over-wait" class="muted hidden">等待房主重开……</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================
+       卡牌详情 / 规则 弹窗
+       ================================================================== -->
+  <div id="card-modal" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal card-modal">
+      <button class="modal-close" id="card-modal-close" type="button" aria-label="关闭">✕</button>
+      <div id="card-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 弃牌堆查看（所有玩家随时可看） -->
+  <div id="discard-modal" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal discard-modal">
+      <button class="modal-close" id="discard-modal-close" type="button" aria-label="关闭">✕</button>
+      <h2 class="modal-title">弃牌堆</h2>
+      <p class="muted">所有玩家都可以随时查看。点任意一张看详情。</p>
+      <div id="discard-body" class="discard-body"></div>
+    </div>
+  </div>
+
+  <!-- 法术类装备的「多境界档位」选档界面已删除：用户裁定（2026-10-02）多档位牌一律自动适配当前境界。
+       「二选一」那类同境界多选不在这里选，而是由服务端展开成待响应候选（见 #pending-list）。 -->
+
+  <div id="pending-modal" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal pending-modal">
+      <h2 class="modal-title" id="pending-title">斗 法 · 破 招</h2>
+      <p class="muted" id="pending-sub"></p>
+      <div id="pending-combat" class="pending-combat hidden"></div>
+      <div id="pending-about" class="pending-about"></div>
+      <div id="pending-list" class="tier-list"></div>
+      <div class="tier-actions">
+        <button id="btn-pending-pass" class="btn btn-cyan" type="button">不 破 招 · 跳 过</button>
+      </div>
+      <p class="muted" id="pending-foot"></p>
+    </div>
+  </div>
+
+  <div id="help-modal" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal help-modal">
+      <button class="modal-close" id="help-close" type="button" aria-label="关闭">✕</button>
+      <h2 class="modal-title">结婴之战 · 速览</h2>
+      <div class="help-body">
+        <h3>目标</h3>
+        <p>从<em>凡人</em>一路修至<em>元婴期</em>：首位晋升元婴期者立即获胜；其余玩家全部出局时，最后一位存活者获胜。</p>
+
+        <h3>回合流程（抽牌改为手动分阶段点击）</h3>
+        <ol>
+          <li><b>补充资源</b>：回合开始自动恢复 <b>1</b> 点法力值（凡人期上限 <b>6</b>，炼气期及以上上限 <b>12</b>）。</li>
+          <li><b>① 炼化灵气牌</b>：点【炼化灵气牌】→ 从灵气牌堆抽 1 张并立即结算（灵气值 +1）。</li>
+          <li><b>② 探索取宝</b>：点【探索 · 取两张宝物牌】→ 从宝物牌堆抽 <b>2</b> 张加入手牌。</li>
+          <li><b>③ 二选一抽牌</b>：从<em>法术</em>与<em>同行者</em>中<b>二选一</b>抽 1 张。</li>
+          <li><b>④ 行动阶段</b>：使用卡牌 / 晋升境界（1 次）/ 发起对战（1 场）/ 弃置手牌。</li>
+          <li><b>回合结束</b>：手牌上限——宝物 ≤ <b>6</b> 张、法术 ≤ <b>2</b> 张、同行者 ≤ <b>2</b> 张，超出者弃置。</li>
+        </ol>
+        <p class="muted">开局只有 2 张宝物牌，<b>没有同行者</b>。<b>闭关</b>可在①②③任一阶段宣布（每局一次）。</p>
+        <p class="muted"><b>第一个回合不能发起对战</b>——每个人（不只是先手）都要先铺一回合场，从自己的<b>第 2 个回合</b>起才能打。</p>
+
+        <h3>灵气值与灵气牌堆</h3>
+        <p>灵气值 = 灵气区里<b>灵气牌的张数</b>；消耗灵气值即把灵气牌放回牌堆底部。<b>每种灵气牌每回合各可额外触发一次</b>。</p>
+        <p>灵气牌共 <b>4 种各 15 张（合计 60）</b>：稀薄灵气（仅 +1 灵气）、混杂灵气（+1 灵气 +1 法力）、充裕灵气（+1 灵气，再抽 1 张灵气牌）、天地灵气（+1 灵气，再抽 2 张灵气牌）。<b>灵气牌堆抽尽时不会洗弃牌，而是直接再补一整组 60 张</b>继续抽取。</p>
+
+        <h3>晋升境界（三条同时满足）</h3>
+        <ol>
+          <li>灵气值 <b>≥</b> 灵根符所示门槛（天 5/8/12/16 · 双 5/8/13/17 · 三 6/9/14/18 · 伪 <b>7/9/15/19</b>）；</li>
+          <li><b>消耗</b>面板标注的灵气值（炼气 0 · 筑基 2 · 结丹 2 · 元婴 3）；</li>
+          <li>结丹需掷骰 <b>≥4</b>、元婴需掷骰 <b>≥5</b>（其余境界无需掷骰）。</li>
+        </ol>
+        <p>晋升成功后基础战力值 +1；失败则消耗的灵气不返还、境界不变，本回合晋升机会已用掉。</p>
+
+        <h3>装备类法宝（分两档）</h3>
+        <table class="help-table">
+          <tr><th>档位</th><th>装备时</th><th>对战中启用效果时</th></tr>
+          <tr><td><b>低境界</b>（凡人 / 炼气期）</td><td>免费，不消耗法力</td><td>付角标法力值（不足则该件本场不生效）</td></tr>
+          <tr><td><b>高境界</b>（筑基期及以上）</td><td>付角标法力值</td><td>免费</td></tr>
+        </table>
+        <p class="muted">角标数字为该法宝的法力消耗值；若角标为 0，则两处都不消耗。手牌与装备位上都会标注该法宝属于哪一档。</p>
+
+        <h3>同行者（只有占位限制）</h3>
+        <p>同行者<b>没有境界限制</b>，只看放置位：凡人 <b>1</b> 格、筑基期及以上 <b>2</b> 格。占 <b>2 个放置位</b>的是【玄骨】【墨彩环】。</p>
+        <p><b>普通同行者不替挡伤害</b>——只有卡文明写「此同行者可替你承受任意 N 次伤害」的才替挡（【啼魂】1、【寒蛟】1、【铁火蚁】1、【钟卫娘】1、【离龟】2、【南宫婉】2）。</p>
+        <p>同行者的效果按触发时点分：<b>放置时 / 自己回合 / 对战发生时 / 受到伤害时 / 生命濒危时 / 对战获胜时 / 晋升时</b>。一张牌可以有多条。</p>
+
+        <h3>对战（掷骰分两段）</h3>
+        <ol>
+          <li><b>第一个回合不能发起对战</b>——每个人各自的第一个回合都只铺场，第 2 个回合起才解锁。</li>
+          <li><b>不可向低于自己两个境界</b>的修士发起对战。</li>
+          <li><b>准备阶段</b>：双方可打出标注「对战中使用」的牌，然后由<b>发起方先掷骰</b>。</li>
+          <li><b>应战阶段</b>：发起方点数亮出后，轮到<b>应战方掷骰</b>；应战方看到对方点数后仍可打出对战类卡牌，再由自己掷骰。</li>
+          <li>应战方投完<b>立即结算</b>战力。</li>
+          <li><b>骰点查表转为额外战力值</b>：1 点 → +0；2~5 点 → +1；6 点 → +2（不是直接相加）。</li>
+          <li><b>最终战力值 = 基础战力值 + 骰点转化的额外战力值 + 装备/同行者修正 + 卡牌修正</b>，高者获胜。</li>
+          <li><b>结果窗口</b>：分出胜负后，<b>赢家</b>可打出一张「对战获胜时」使用的牌（如【风云幡】【火弹术】），<b>输家</b>可打出一张「对战失败时」使用的牌（如【踏云靴】免罚、【透明丝线】反伤）。各限一张，也可跳过。</li>
+        </ol>
+        <p class="muted">卡牌的时机是<b>精确到窗口</b>的：「投掷骰子前 / 后」「对方投掷骰子前 / 后」「出牌阶段」「平局」「获胜 / 失败」各自独立，不在时机内点不动是设计如此（卡面文字为准）。</p>
+        <table class="help-table">
+          <tr><th>情形</th><th>失败方惩罚</th></tr>
+          <tr><td>同境界</td><td>扣 1 点生命 + 1 点灵气</td></tr>
+          <tr><td>败方境界较低</td><td>仅扣 1 点生命（<b>不扣灵气</b>）</td></tr>
+          <tr><td>败方境界较高</td><td>扣 1 点生命 + 2 点灵气，并被对方抽走 1 张手牌</td></tr>
+        </table>
+
+        <h3>平局</h3>
+        <p>双方最终战力相等即为平局：双方在此阶段<b>各仅能使用一张</b>「改变战力结果」的卡牌（如【天星大阵】）；若仍持平，<b>本场对战以平局收场，双方均无损失</b>。</p>
+
+        <h3>闭关（一局一次）</h3>
+        <p>在自己回合<b>开始时</b>（炼化灵气 / 探索取宝 / 二选一抽牌任一阶段，即行动阶段之前）宣布：抽 <b>2</b> 张灵气牌、恢复 <b>1</b> 点生命，随后跳过本回合全部行动。闭关中不会成为对战对象，也不受任何卡牌效果影响，持续到自己的下个回合开始。</p>
+
+        <h3>伤害 · 淘汰 · 祝贺</h3>
+        <p>生命值上限 <b>6</b> 点，归零即出局。受到伤害时的承受顺序：<b>① 傀儡位上的【傀儡蜥蜴】</b>（整次挡下，每次消耗 2 点法力，最多 2 次）→ <b>② 写了「可替你承受」的同行者</b> → <b>③ 由本人承受</b>。普通同行者不挡伤害。击败对方者可从其剩余卡牌中<b>任选 3 张</b>收入手牌。有修士晋升<b>筑基期及以上</b>时，全场需起立道贺。</p>
+
+        <h3>傀儡位（【傀儡蜥蜴】专用）</h3>
+        <p>【傀儡蜥蜴】<b>不是装备类法宝，但需要"装备"上场</b>：上场<b>不消耗法力</b>，占<b>独立的傀儡位</b>（不占储物袋格子），上场期间牌留在场上，替主人挡下整次伤害、每次消耗 <b>2</b> 点法力、最多 <b>2</b> 次，用完进弃牌堆。</p>
+
+        <h3>越级强行使用</h3>
+        <p>消耗类卡牌的适用境界高于当前境界时，可<b>额外支付 1 点法力值</b>强行使用；装备类不可越级装备，同行者无境界限制。</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

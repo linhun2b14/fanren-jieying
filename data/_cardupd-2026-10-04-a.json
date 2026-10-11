@@ -1,0 +1,131 @@
+{
+  "add": [
+    {
+      "deck": "spell", "name": "大衍诀", "type": "equip", "cost": 0, "realm": 1, "count": 3,
+      "cat": "装备类法术",
+      "text": "在自己的回合开始时，额外恢复1点【法力值】。",
+      "effects": [{ "op": "mana_regen_bonus", "value": 1, "event": "turnStart", "subject": "self", "auto": true }]
+    },
+    {
+      "deck": "spell", "name": "天火之术", "type": "consume", "cost": 1, "realm": 1, "count": 3,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，使除你以外的所有修士受到1点伤害。",
+      "effects": [{ "op": "damage_all_others", "value": 1, "event": "useCard", "subject": "self", "phase": "after" }]
+    },
+    {
+      "deck": "spell", "name": "传音秘术", "type": "consume", "cost": 1, "realm": 1, "count": 3,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，抽取1张【同行者】和1张【宝物牌】。",
+      "effects": [{ "op": "draw_mixed", "companion": 1, "treasure": 1, "event": "useCard", "subject": "self", "phase": "after" }]
+    },
+    {
+      "deck": "spell", "name": "牵机之术", "type": "consume", "cost": 1, "realm": 1, "count": 3,
+      "cat": "消耗类法术",
+      "text": "在任意回合使用，当你受到任意伤害时，抽取1张【同行者】。",
+      "effects": [{ "op": "draw_mixed", "companion": 1, "event": "hurt", "subject": "self" }]
+    },
+    {
+      "deck": "spell", "name": "御风诀", "type": "equip", "cost": 2, "realm": 1, "count": 3,
+      "cat": "装备类法术",
+      "text": "在自己的探索阶段时，可额外抽取1张【宝物牌】。",
+      "effects": [{ "op": "draw_treasure", "value": 1, "event": "drawTreasure", "subject": "self", "auto": true }]
+    },
+    {
+      "deck": "treasure", "name": "乌龙夺", "type": "consume", "cost": 1, "realm": 0, "count": 3,
+      "cat": "消耗类法器",
+      "text": "当你主动发起对战时，使本次对战中自身的【战力值】+1。",
+      "effects": [{ "op": "combat_bonus", "value": 1, "event": "combatDeclare", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "木龙碑", "type": "consume", "cost": 0, "realm": 0, "count": 3,
+      "cat": "消耗类法器",
+      "text": "当你被指定为对战目标时，使用此【宝物牌】，跳过本次对战，并将本次对战的结果视为平局。",
+      "effects": [{ "op": "cancel_attack", "event": "combatDeclare", "subject": "foe" }]
+    },
+    {
+      "deck": "treasure", "name": "极品麻将", "type": "consume", "cost": 1, "realm": 0, "count": 3,
+      "cat": "消耗类法器",
+      "text": "在对战中出牌阶段使用，使本次对战中自身的【战力值】+1。",
+      "effects": [{ "op": "combat_bonus", "value": 1, "event": "roll", "phase": "before", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "牵机灯", "type": "consume", "cost": 0, "realm": 0, "count": 3,
+      "cat": "消耗类法器",
+      "text": "在对战失败时使用，你可以抽取1张【同行者】。",
+      "effects": [{ "op": "draw_mixed", "companion": 1, "event": "combatResult", "phase": "lose", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "铜钱", "type": "consume", "cost": 1, "realm": 0, "count": 3,
+      "cat": "消耗类法器",
+      "text": "在对战中使用，让对方使用的任意1张【消耗类\\装备类宝物牌】效果无效。",
+      "effects": [{ "op": "nullify_enemy_card", "block": "宝物牌", "event": "useCard", "phase": "before", "subject": "foe" }]
+    },
+    {
+      "deck": "treasure", "name": "蓝丝剑", "type": "equip", "cost": 0, "realm": 0, "count": 3,
+      "cat": "装备类法器",
+      "text": "在对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。（装备时不消耗【法力值】）",
+      "effects": [{ "op": "dice_bonus", "value": 1, "cap": 6, "event": "roll", "phase": "before", "subject": "self" }]
+    },
+    {
+      "deck": "treasure", "name": "金蚨子母刃", "type": "equip", "cost": 1, "realm": 0, "count": 3,
+      "cat": "装备类法器",
+      "text": "在对战中出牌阶段使用，若对方的境界高于你，你的骰子点数+2（最高为6点）；若为同级修士，则无事发生。（装备时不消耗【法力值】）",
+      "effects": [
+        { "op": "dice_bonus", "value": 2, "cap": 6, "if": { "enemyRealm": { "higher": true } }, "event": "roll", "phase": "before", "subject": "self" },
+        { "op": "enable_equip_combat", "manaCost": 1, "event": "combatOpt", "subject": "self" }
+      ]
+    },
+    {
+      "deck": "treasure", "name": "掌天瓶", "type": "equip", "cost": 1, "realm": 0, "count": 3,
+      "cat": "装备类宝物",
+      "text": "在自己的探索阶段时，可额外抽取1张【宝物牌】。（装备时不消耗【法力值】）",
+      "effects": [
+        { "op": "draw_treasure", "value": 1, "event": "drawTreasure", "subject": "self", "auto": true },
+        { "op": "enable_equip_combat", "manaCost": 1, "event": "combatOpt", "subject": "self" }
+      ]
+    },
+    {
+      "deck": "treasure", "name": "定颜丹", "type": "consume", "cost": 0, "realm": 0, "count": 3,
+      "cat": "消耗类丹药",
+      "text": "在自己的回合使用，抽取2张【宝物牌】。",
+      "effects": [{ "op": "draw_treasure", "value": 2, "event": "useCard", "subject": "self", "phase": "after" }]
+    },
+    {
+      "deck": "treasure", "name": "补天丹", "type": "consume", "cost": 0, "realm": 0, "count": 3,
+      "cat": "消耗类丹药",
+      "text": "在自己的回合使用，恢复1点【生命值】并抽取1张【灵气牌】。",
+      "effects": [
+        { "op": "heal", "value": 1, "event": "useCard", "subject": "self", "phase": "after" },
+        { "op": "draw_qi", "value": 1, "event": "useCard", "subject": "self", "phase": "after" }
+      ]
+    },
+    {
+      "deck": "companion", "name": "齐云霄", "type": "companion", "cost": null, "realm": 0, "count": 2, "slots": 1,
+      "cat": "修士", "cardCostDiscount": 1,
+      "text": "使用任意【宝物牌】\\【法术牌】时，【法力值】消耗-1（最低为1）。",
+      "effects": []
+    },
+    {
+      "deck": "companion", "name": "厉飞雨", "type": "companion", "cost": null, "realm": 0, "count": 2, "slots": 1,
+      "cat": "修士", "absorb": 2,
+      "text": "此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": []
+    },
+    {
+      "deck": "companion", "name": "向之礼", "type": "companion", "cost": null, "realm": 0, "count": 2, "slots": 2,
+      "cat": "修士",
+      "text": "•晋升时，抽取1张【灵气牌】。\n•在对战获胜时，抽取1张【灵气牌】。\n•此【同行者】需要2个放置位",
+      "effects": [
+        { "op": "draw_qi", "value": 1, "event": "promote", "phase": "after", "subject": "self", "auto": true },
+        { "op": "win_draw_qi", "value": 1, "event": "combatResult", "phase": "win", "subject": "self", "auto": true }
+      ]
+    }
+  ],
+  "update": [
+    {
+      "name": "凤凰符",
+      "patch": { "text": "在自己的回合使用，指定任意一至两位修士同时受到1点伤害。（无法被【傀儡\\同行者】承受）" }
+    }
+  ],
+  "count": []
+}

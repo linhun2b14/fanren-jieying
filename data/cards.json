@@ -1,0 +1,2852 @@
+{
+  "treasure": [
+    {
+      "id": "k_e9a38ee99bb7e7bf85",
+      "name": "风雷翅",
+      "type": "equip",
+      "cost": 3,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类法宝",
+      "text": "在对战失败时，投掷1次骰子，点数为1、3、6，不受本次对战失败的惩罚。对方在本次对战中，仍视为获胜)。（装备时消耗3点【法力值】)。",
+      "effects": [
+        {
+          "op": "lose_save_dice",
+          "faces": [
+            1,
+            3,
+            6
+          ],
+          "event": "combatResult",
+          "phase": "lose",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e587a4e587b0e7aca6",
+      "name": "凤凰符",
+      "type": "consume",
+      "cost": 3,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类符宝",
+      "text": "在自己的回合使用，指定任意一至两位修士同时受到1点伤害。（无法被【傀儡\\同行者】承受）",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "max": 2,
+          "ignore_companion": true,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "target": "multi"
+        }
+      ]
+    },
+    {
+      "id": "k_e5af92e586b0e78fa0",
+      "name": "寒冰珠",
+      "type": "consume",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在对战中对方投掷骰子前使用，让对方投掷的骰子点数-2（最低为1）。",
+      "effects": [
+        {
+          "op": "dice_penalty",
+          "value": 2,
+          "event": "roll",
+          "subject": "foe",
+          "phase": "before"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e5af92e9bb8ee78fa0",
+      "name": "寒黎珠",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在自己的回合使用，指定任意一位修士，使对方跳过下回合所有行为。",
+      "effects": [
+        {
+          "op": "skip_turns",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e692bce59cb0e7aca6",
+      "name": "撼地符",
+      "type": "consume",
+      "cost": 3,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类符宝",
+      "text": "在自己的回合使用，指定任意一至两位修士同时受到1点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "max": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "target": "multi"
+        }
+      ]
+    },
+    {
+      "id": "k_e88ab1e7afae",
+      "name": "花篮",
+      "type": "consume",
+      "cost": 1,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在自己的回合使用，指定任意一位修士，从对方的【储物袋】中取走所有【装备类宝物牌】。",
+      "effects": [
+        {
+          "op": "steal_equip",
+          "all": true,
+          "count": "all",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e98791e58589e7a096e7aca6",
+      "name": "金光砖符",
+      "type": "consume",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类符宝",
+      "text": "在对战中出牌阶段使用，放弃投掷骰子，使本次对战中自身的〔战力值〕+2。",
+      "effects": [
+        {
+          "op": "dice_skip_bonus",
+          "value": 2,
+          "event": "roll",
+          "subject": "self",
+          "phase": "before"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e7bbbfe7858ce58991",
+      "name": "绿煌剑",
+      "type": "equip",
+      "cost": 3,
+      "realm": 0,
+      "count": 3,
+      "cat": "装备类法宝",
+      "text": "在对战获胜时，让对方额外受到1点伤害。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "manaCost": 3,
+          "target": "loser"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e5a891e7bd97e78fa0",
+      "name": "娑罗珠",
+      "type": "consume",
+      "cost": 0,
+      "realm": 1,
+      "count": 2,
+      "cat": "消耗类法宝",
+      "text": "晋升时使用，使本次晋升消耗的【灵气值】-1。",
+      "effects": [
+        {
+          "op": "promote_discount_once",
+          "value": 1,
+          "on": "consume",
+          "event": "promote",
+          "subject": "self",
+          "phase": "before"
+        }
+      ]
+    },
+    {
+      "id": "k_e8b88fe4ba91e99db4",
+      "name": "踏云靴",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类法宝",
+      "text": "在对战失败时使用，不受本次对战失败的惩罚（对方在本次对战中，仍视为获胜）。",
+      "effects": [
+        {
+          "op": "lose_immunity",
+          "event": "combatResult",
+          "phase": "lose"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e5a4a9e99bb7e5ad90",
+      "name": "天雷子",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在对战筑基期及以下境界的修士获胜后，使对方额外受到1点伤害。若对方是筑基期以上的修士，在对战阶段时的骰子点数+1。",
+      "effects": [
+        {
+          "op": "win_extra_damage",
+          "if": {
+            "enemyRealm": {
+              "lte": 2
+            }
+          },
+          "value": 1,
+          "event": "roll",
+          "subject": "self",
+          "phase": "before"
+        },
+        {
+          "op": "dice_bonus",
+          "if": {
+            "enemyRealm": {
+              "gte": 3
+            }
+          },
+          "value": 1,
+          "event": "roll",
+          "subject": "self",
+          "phase": "before"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e9808fe6988ee4b89de7babf",
+      "name": "透明丝线",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在对战失败时使用，让对方受到1点（伤害）。",
+      "effects": [
+        {
+          "op": "lose_retaliate",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "lose"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e998b4e9ad82e4b89d",
+      "name": "阴魂丝",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类法器",
+      "text": "当你被指定为对战目标，在对方的对战的阶段前使用，让对方无法在本次对战中使用【消耗类宝物牌】。",
+      "effects": [
+        {
+          "op": "block_enemy_card_kind",
+          "block": "消耗类宝物牌",
+          "event": "combatDeclare",
+          "subject": "foe"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e981aee5a4a9e9929f",
+      "name": "遮天钟",
+      "type": "consume",
+      "cost": 2,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在任意回合使用，当你受到任意伤害投1次骰子，点数为4、5抵消此次伤害；点数为6，抵消该次伤害对方受到等额伤害。",
+      "effects": [
+        {
+          "op": "damage_save_dice",
+          "faces": [
+            4,
+            5
+          ],
+          "reflect": 6,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        },
+        {
+          "op": "damage_save_dice",
+          "faces": [
+            4,
+            5
+          ],
+          "reflect": 6,
+          "event": "hurt",
+          "subject": "self"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e79c9fe587b0e7aca6",
+      "name": "真凰符",
+      "type": "consume",
+      "cost": 4,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类符宝",
+      "text": "在自己的回合使用，使自身先受到1点伤害，然后指定任意一至两位修士同时受到2点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "selfDamage": 1,
+          "value": 2,
+          "max": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "target": "self_then_target"
+        }
+      ]
+    },
+    {
+      "id": "k_e5a4a7e68caae7a7bbe4bba4",
+      "name": "大挪移令",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，抽取1张【宝物牌】和1张【法术牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "treasure": 1,
+          "spell": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e9bb91e8a180e58880",
+      "name": "黑血刀",
+      "type": "equip",
+      "cost": 2,
+      "realm": 0,
+      "count": 2,
+      "cat": "装备类法宝",
+      "text": "在对战中投掷骰子前使用，使本次对战中骰子点数+2（最高为6点）。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "dice_bonus",
+          "value": 2,
+          "cap": 6,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self",
+          "manaCost": 2
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e7baa2e7babfe98181e58589e99288",
+      "name": "红线遁光针",
+      "type": "consume",
+      "cost": 2,
+      "realm": 1,
+      "count": 2,
+      "cat": "消耗类法器",
+      "text": "在自己的回合使用，指定一位境界高于你的修士受到1点伤害",
+      "effects": [
+        {
+          "op": "damage_higher_realm",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e8a180e5879de4ba94e8a18ce4b8b9",
+      "name": "血凝五行丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类丹药",
+      "text": "在自己的回合使用，进入伪丹期（【战力值】和结丹期一致），持续2回合。回合结束若没有达到结丹期，则回到筑基期，且自身受到1点伤害。",
+      "effects": [
+        {
+          "op": "pseudo_realm",
+          "realm": 3,
+          "turns": 2,
+          "penalty": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e99d92e7abb9e89c82e4ba91e5899120e8be9fe982aae7a59ee99bb7",
+      "name": "青竹蜂云剑 辟邪神雷",
+      "type": "equip",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "装备类法宝",
+      "text": "此【宝物牌】可使用2次，在对战中使用，使本次对战自身的【战力值】+1。（若已装备【青竹蜂云剑】，将此【宝物牌】放置于【青竹蜂云剑】上，即可持续装备。）\n（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "combat_bonus",
+          "value": 1,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self",
+          "manaCost": 2
+        }
+      ],
+      "note": "「若已装备【青竹蜂云剑】，将此【宝物牌】放置于其上，即可持续装备」= 字段 attachTo:'青竹蜂云剑'（储物袋满也能放，**不额外占格**；底牌离场/被夺时它一起走，见 detachAttached）；「可使用2次」= uses:2（用完后不再摆出来问，卡留在场上）。费用按 §7.4「装备免费、发动其效果才消耗」印在效果上：我方投骰前花 2 点，本场战力 +1。",
+      "response": true,
+      "attachTo": "青竹蜂云剑",
+      "uses": 2
+    },
+    {
+      "id": "k_e7a681e7a59ee7898c",
+      "name": "禁神牌",
+      "type": "consume",
+      "cost": 3,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在自己的回合使用，指定任意一位修士受到1点伤害，并跳过下个回合所有行动。",
+      "effects": [
+        {
+          "op": "damage",
+          "skip": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "k_e8999ae5a4a9e9bc8e20e4b9bee8939de586b0e784b0",
+      "name": "虚天鼎 乾蓝冰焰",
+      "type": "equip",
+      "cost": 0,
+      "equipCost": 5,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类通天灵宝",
+      "text": "1.虚天鼎：在对战中出牌阶段使用，不消耗【法力值】，使对方的任意1张【法术牌】/【宝物牌】无效。 2.乾蓝冰焰：在对战中出牌阶段使用，消耗1点【法力值】，使本次对战中自身的【战力值】+1。（装备时消耗5点【法力值】）",
+      "effects": [
+        {
+          "op": "nullify_enemy_card",
+          "block": "法术牌/宝物牌",
+          "event": "useCard",
+          "phase": "before",
+          "subject": "foe",
+          "oncePerTurn": true
+        },
+        {
+          "op": "combat_bonus",
+          "value": 1,
+          "manaCost": 1,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e69cb1e99b80e78eaf",
+      "name": "朱雀环",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在对战中出牌阶段使用，使本次对战中自身的【战力值】+1，若对战获胜，恢复2点【法力值】。",
+      "effects": [
+        {
+          "op": "combat_bonus_win_mana",
+          "value": 1,
+          "winMana": 2,
+          "event": "roll",
+          "subject": "self",
+          "phase": "before"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e9a38ee4ba91e5b9a1",
+      "name": "风云幡",
+      "type": "consume",
+      "cost": 0,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法宝",
+      "text": "在对战获胜时使用，抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "deck": "qi"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e4b99de69bb2e781b5e58f82",
+      "name": "九曲灵参",
+      "type": "consume",
+      "cost": 0,
+      "realm": 3,
+      "count": 1,
+      "cat": "消耗类灵药",
+      "text": "晋升元婴期时，所需【灵气值】-1。可和【九曲灵参丹】一起使用，使所需【灵气值】-3。",
+      "effects": [
+        {
+          "op": "promote_discount_once",
+          "value": 1,
+          "onlyRealm": 4,
+          "comboWith": "九曲灵参丹",
+          "comboValue": 3,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e4b99de69bb2e781b5e58f82e4b8b9",
+      "name": "九曲灵参丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 3,
+      "count": 1,
+      "cat": "消耗类丹药",
+      "text": "晋升元婴期时，所需【灵气值】-1。若将此【宝物牌】放入【弃牌堆】，则可抽取1张【灵气牌】。可和【九曲灵参】一起使用，使所需【灵气值】-3。",
+      "effects": [
+        {
+          "op": "promote_discount_once",
+          "value": 1,
+          "onlyRealm": 4,
+          "comboWith": "九曲灵参",
+          "comboValue": 3,
+          "alsoDrawQi": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e58280e584a1e89ca5e89cb4",
+      "name": "傀儡蜥蜴",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "傀儡形法器",
+      "text": "可替你承受任意2次伤害（每承受1次伤害消耗2点法力值），之后此【傀儡】放入【弃牌堆】。（不占用储物袋格子）",
+      "effects": [
+        {
+          "op": "summon_puppet",
+          "absorbs": 2,
+          "manaCost": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        },
+        {
+          "event": "hurt",
+          "subject": "self",
+          "op": "puppet_absorb",
+          "manaCost": 2,
+          "if": {
+            "puppet": true
+          }
+        }
+      ],
+      "equipSlot": "puppet",
+      "response": true
+    },
+    {
+      "id": "k_e99d92e89b9fe69797",
+      "name": "青蛟旗",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 1,
+      "cat": "法器",
+      "text": "在自己的回合使用，指定任意一位修士，让对方受到1点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e99d92e781abe99bb7",
+      "name": "青火雷",
+      "type": "consume",
+      "cost": 2,
+      "realm": 2,
+      "count": 1,
+      "cat": "法宝",
+      "text": "在对战中出牌阶段使用，若本次对战获胜，对方额外受到2点伤害。若对战失败，你额外受到1点伤害。",
+      "effects": [
+        {
+          "op": "risky_win_damage",
+          "winDamage": 2,
+          "loseDamage": 1,
+          "event": "roll",
+          "subject": "self",
+          "phase": "before"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e8a1a5e6b094e4b8b9",
+      "name": "补气丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 4,
+      "cat": "消耗类丹药",
+      "text": "在自己回合使用，恢复1点【生命值】。",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e59b9ee6b094e4b8b9",
+      "name": "回气丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 3,
+      "cat": "消耗类丹药",
+      "text": "在自己回合使用，恢复2点【法力值】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "name": "乌龙夺",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "当你主动发起对战时，使本次对战中自身的【战力值】+1。",
+      "effects": [
+        {
+          "op": "combat_bonus",
+          "value": 1,
+          "event": "combatDeclare",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e4b98ce9be99e5a4ba",
+      "response": true
+    },
+    {
+      "name": "木龙碑",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类法器",
+      "text": "当你被指定为对战目标时，使用此【宝物牌】，跳过本次对战，并将本次对战的结果视为平局。",
+      "effects": [
+        {
+          "op": "cancel_attack",
+          "event": "combatDeclare",
+          "subject": "foe"
+        }
+      ],
+      "id": "k_e69ca8e9be99e7a291",
+      "response": true
+    },
+    {
+      "name": "极品麻将",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在对战中出牌阶段使用，使本次对战中自身的【战力值】+1。",
+      "effects": [
+        {
+          "op": "combat_bonus",
+          "value": 1,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e69e81e59381e9babbe5b086",
+      "response": true
+    },
+    {
+      "name": "牵机灯",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在对战失败时使用，你可以抽取1张【同行者】。",
+      "effects": [
+        {
+          "op": "draw",
+          "companion": 1,
+          "event": "combatResult",
+          "phase": "lose",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e789b5e69cbae781af",
+      "response": true
+    },
+    {
+      "name": "铜钱",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在对战中使用，让对方使用的任意1张【消耗类\\装备类宝物牌】效果无效。",
+      "effects": [
+        {
+          "op": "nullify_enemy_card",
+          "block": "宝物牌",
+          "event": "useCard",
+          "phase": "before",
+          "subject": "foe"
+        }
+      ],
+      "id": "k_e9939ce992b1",
+      "response": true
+    },
+    {
+      "name": "蓝丝剑",
+      "type": "equip",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "装备类法器",
+      "text": "在对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e8939de4b89de58991",
+      "response": true
+    },
+    {
+      "name": "金蚨子母刃",
+      "type": "equip",
+      "cost": 1,
+      "realm": 0,
+      "count": 2,
+      "cat": "装备类法器",
+      "text": "在对战中出牌阶段使用，若对方的境界高于你，你的骰子点数+2（最高为6点）；若为同级修士，则无事发生。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "dice_bonus",
+          "value": 2,
+          "cap": 6,
+          "if": {
+            "enemyRealm": {
+              "higher": true
+            }
+          },
+          "event": "roll",
+          "phase": "before",
+          "subject": "self",
+          "manaCost": 1
+        }
+      ],
+      "id": "k_e98791e89aa8e5ad90e6af8de58883",
+      "response": true
+    },
+    {
+      "name": "掌天瓶",
+      "type": "equip",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "装备类宝物",
+      "text": "在自己的探索阶段时，可额外抽取1张【宝物牌】。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "drawTreasure",
+          "subject": "self",
+          "oncePerTurn": true,
+          "deck": "treasure",
+          "manaCost": 1
+        }
+      ],
+      "id": "k_e68e8ce5a4a9e793b6"
+    },
+    {
+      "name": "定颜丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类丹药",
+      "text": "在自己的回合使用，抽取2张【宝物牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "deck": "treasure"
+        }
+      ],
+      "id": "k_e5ae9ae9a29ce4b8b9"
+    },
+    {
+      "name": "补天丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类丹药",
+      "text": "在自己的回合使用，恢复1点【生命值】并抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "deck": "qi"
+        }
+      ],
+      "id": "k_e8a1a5e5a4a9e4b8b9"
+    },
+    {
+      "name": "紫铖兜",
+      "type": "equip",
+      "cost": 3,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类古宝",
+      "text": "当你受到任意伤害时，投掷1次骰子，点数为1、6则抵消该次伤害。\n（装备时消耗3点【法力值】）",
+      "effects": [
+        {
+          "op": "damage_save_dice",
+          "faces": [
+            1,
+            6
+          ],
+          "event": "hurt",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e7b4abe99396e5859c",
+      "response": true
+    },
+    {
+      "name": "降尘丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类符箓",
+      "text": "晋升时使用，使本次晋升所需消耗的【灵气值】-1，若将此【宝物牌】放入【弃牌堆】，则可抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "promote_discount_once",
+          "value": 1,
+          "on": "consume",
+          "alsoDrawQi": 1,
+          "event": "promote",
+          "phase": "before",
+          "subject": "self"
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "deck": "qi",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "note": "卡文后半句「放入弃牌堆则可抽 1 灵气」的出牌阶段通道：打出即进弃牌堆 = 抽 1 灵气（2026-10-05 用户裁定：这类牌有两个时点）"
+        }
+      ],
+      "id": "k_e9998de5b098e4b8b9"
+    },
+    {
+      "name": "血色披风",
+      "type": "equip",
+      "cost": 0,
+      "realm": 1,
+      "count": 1,
+      "equipCost": 2,
+      "cat": "装备类古宝",
+      "text": "当你受到任意伤害时，恢复1点【法力值】。\n（装备时消耗2点【法力值】）",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 1,
+          "event": "hurt",
+          "subject": "self",
+          "auto": true
+        }
+      ],
+      "id": "k_e8a180e889b2e68aabe9a38e"
+    },
+    {
+      "name": "七鬼珠",
+      "type": "equip",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "装备类法宝",
+      "text": "在对战中出牌阶段使用，使本场对战中可额外投掷1次骰子，取结果最大值。\n（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "reroll_dice",
+          "value": 1,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self",
+          "manaCost": 2
+        }
+      ],
+      "id": "k_e4b883e9acbce78fa0",
+      "response": true
+    },
+    {
+      "name": "千重峰",
+      "type": "consume",
+      "cost": 5,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类古宝",
+      "text": "在自己的回合使用，指定任意一位修士，让对方受到3点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 3,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "id": "k_e58d83e9878de5b3b0"
+    },
+    {
+      "name": "雷火锥",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类古宝",
+      "text": "在任意回合使用，使任意1张【消耗类法术牌】无效。",
+      "effects": [
+        {
+          "op": "nullify_enemy_card",
+          "block": "法术牌",
+          "event": "useCard",
+          "phase": "before",
+          "subject": "foe"
+        }
+      ],
+      "id": "k_e99bb7e781abe994a5",
+      "response": true
+    },
+    {
+      "name": "筑基丹",
+      "type": "consume",
+      "cost": 0,
+      "realm": 1,
+      "count": 3,
+      "cat": "消耗类符箓",
+      "text": "在自己的回合使用，抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "deck": "qi"
+        }
+      ],
+      "id": "k_e7ad91e59fbae4b8b9"
+    },
+    {
+      "name": "隐灵纱",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在自己的回合结束时使用，在你的下回合开始之前，你无法被指定为对战目标。",
+      "effects": [
+        {
+          "op": "cannot_be_targeted",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "「在你的下回合开始之前，你无法被指定为对战目标」= op cannot_be_targeted（只挡对战目标，不挡\"指定修士受伤\"那类效果）。",
+      "id": "k_e99a90e781b5e7bab1"
+    },
+    {
+      "name": "神风舟",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在自己的回合开始时使用，跳过本回合所有行动，改为只抽取1张【灵气牌】，直到你的下回合开始时，你无法被指定为对战目标，并在下回合的探索阶段额外抽取1张【宝物牌】。",
+      "effects": [
+        {
+          "op": "void_turn_qi",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        },
+        {
+          "op": "cannot_be_targeted",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        },
+        {
+          "op": "explore_extra_treasure",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "三条全部实装：void_turn_qi（抽 1 灵气并立刻结束本回合）+ cannot_be_targeted + explore_extra_treasure（下回合探索 2+1 张宝物）。注：本引擎里\"回合开始时使用\"落在行动阶段（抽取阶段是自动流程），所以\"只抽 1 张灵气牌\"表现为额外补 1 张灵气牌。",
+      "id": "k_e7a59ee9a38ee8889f"
+    },
+    {
+      "name": "玄铁飞天盾",
+      "type": "equip",
+      "cost": 2,
+      "realm": 0,
+      "count": 1,
+      "cat": "装备类法器",
+      "text": "当你受到任意伤害时，投掷1次骰子，若点数为5、6，使该伤害无效；若点数为2、3、4仍受到该伤害；若点数为1，受到双倍伤害。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "roll_branch",
+          "event": "hurt",
+          "subject": "self",
+          "manaCost": 2,
+          "branches": [
+            {
+              "faces": [
+                5,
+                6
+              ],
+              "effects": [
+                {
+                  "op": "damage_cancel"
+                }
+              ]
+            },
+            {
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "effects": []
+            },
+            {
+              "faces": [
+                1
+              ],
+              "effects": [
+                {
+                  "op": "damage_multiply",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "id": "k_e78e84e99381e9a39ee5a4a9e79bbe",
+      "response": true
+    },
+    {
+      "name": "龙纹四象蟠龙带",
+      "type": "equip",
+      "cost": 0,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类法宝",
+      "text": "此【宝物牌】可使用2次，当【法力值】低于3点时，将任意1张【宝物牌】放入【弃牌堆】，恢复2点【法力值】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 2,
+          "when": "activate",
+          "if": {
+            "mana": {
+              "lt": 3
+            }
+          },
+          "cost": {
+            "discard": "treasure"
+          }
+        }
+      ],
+      "note": "「可使用 2 次；法力值低于 3 点时，弃 1 张【宝物牌】恢复 2 点【法力值】」= uses:2 + 主动技能（if.mana<3 + cost.discard:treasure）。",
+      "id": "k_e9be99e7bab9e59b9be8b1a1e89fa0e9be99e5b8a6",
+      "uses": 2
+    },
+    {
+      "name": "青冥针",
+      "type": "equip",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "装备类法宝",
+      "uses": 2,
+      "response": true,
+      "text": "此【宝物牌】可使用2次，当你受到任意1点伤害时，指定任意一位修士受到等额伤害。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "hurt_reflect",
+          "who": "any",
+          "event": "hurt",
+          "subject": "self",
+          "manaCost": 2
+        }
+      ],
+      "note": "「可使用 2 次」= uses:2；「受伤时指定任意一位修士受到等额伤害」= op hurt_reflect（who:'any' → **在窗口里选目标**）；发动费按角标 2 收（卡文写了「装备时不消耗法力值」：装备免费、发动才计费）。",
+      "id": "k_e99d92e586a5e99288"
+    },
+    {
+      "name": "引魂钟",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类法器",
+      "text": "在自己的回合使用，指定任意一位修士，将对方放置的任意1张【同行者】移除并加入自己手牌。",
+      "effects": [
+        {
+          "op": "steal_companion",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "「将对方放置的任意 1 张【同行者】移除并加入自己手牌」= op steal_companion（steal_equip 的同行者版，出牌时选目标）。",
+      "id": "k_e5bc95e9ad82e9929f"
+    },
+    {
+      "name": "傀儡弓手",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "傀儡形法器",
+      "text": "放置此【傀儡】后，除你以外的所有修士投掷骰子进行判定，若点数≤5，判定的修士受到1点伤害。若点数≥5，你受到1点伤害（仅1回合，回合结束时，将此【傀儡】放入【弃牌堆】）。（不占用储物袋）",
+      "effects": [
+        {
+          "op": "puppet_judge_damage",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "equipSlot": "puppet",
+      "note": "「放置此【傀儡】后，除你以外的所有修士掷骰判定：≤5 判定者受 1 点伤害、≥5 你受 1 点伤害（仅 1 回合，回合结束进弃牌堆）」= op puppet_judge_damage（按卡面照实装：5 点两边都吃伤 —— 用户 2026-10-05 裁定）。",
+      "id": "k_e58280e584a1e5bc93e6898b"
+    },
+    {
+      "name": "青竹蜂云剑",
+      "type": "equip",
+      "cost": 1,
+      "realm": 0,
+      "count": 1,
+      "cat": "装备类法宝",
+      "text": "在对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。（装备时不消耗【法力值】）",
+      "effects": [
+        {
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self",
+          "manaCost": 1
+        }
+      ],
+      "note": "2026-10-05 与【青竹蜂云剑 辟邪神雷】拆开的凡人版（原来两张被合成了一张）；费用按 §7.4「装备免费、发动其效果才消耗」印在效果上：我方投骰前花 1 点，本场骰点 +1（封顶 6）。",
+      "id": "k_e99d92e7abb9e89c82e4ba91e58991",
+      "response": true
+    }
+  ],
+  "spell": [
+    {
+      "id": "k_e5a4a9e6989fe5a4a7e998b5",
+      "name": "天星大阵",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类阵法",
+      "text": "在对战平局时使用，恢复1点【生命值】。",
+      "effects": [
+        {
+          "op": "heal",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "tie"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e7a2a7e6b0b4e99d92e794b2e998b5",
+      "name": "碧水青甲阵",
+      "type": "consume",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类阵法",
+      "text": "自己的回合使用，指定任意一位修士跳过下回合所有行动",
+      "effects": [
+        {
+          "op": "skip_turns",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e8bf98e998b3e69caf",
+      "name": "还阳术",
+      "type": "consume",
+      "cost": 2,
+      "realm": 0,
+      "count": 3,
+      "cat": "消耗类法术",
+      "text": "当你的【生命值】为0点时使用，将【生命值】回复到2点",
+      "effects": [
+        {
+          "op": "self_revive",
+          "value": 2,
+          "event": "hurt",
+          "subject": "self",
+          "if": {
+            "lethal": true
+          }
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e6959be6b094e69caf",
+      "name": "敛气术",
+      "type": "equip",
+      "cost": 2,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类功法",
+      "text": "在对战中出牌阶段时使用，本次对战可选择放弃投掷子，在本回合【战力值】指定为5点（不可被增减），若对战胜利，对方受到2点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 2,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "target": "loser"
+        },
+        {
+          "when": "standing",
+          "op": "flat_power",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "k_e78e84e998b4e8af80",
+      "name": "玄阴诀",
+      "type": "equip",
+      "cost": 1,
+      "realm": 2,
+      "count": 1,
+      "cat": "装备类功法",
+      "text": "使用任意【消耗类法宝】后，投掷1次骰子，若点数为6，选择任意一名修士受到1点伤害。",
+      "effects": [
+        {
+          "op": "after_consume_roll6",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e8a180e59292e7a681e588b6",
+      "name": "血咒禁制",
+      "type": "consume",
+      "cost": 0,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，指定一位【生命值】最小的修士，下回合无法抽取【宝物牌】也无法发起对决。",
+      "effects": [
+        {
+          "op": "curse_target",
+          "blockTreasureDraw": true,
+          "blockCombat": true,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e995bfe698a5e58a9f",
+      "name": "长春功",
+      "type": "equip",
+      "cost": 0,
+      "realm": 0,
+      "count": 2,
+      "cat": "装备类功法",
+      "text": "提升1次境界，抽取1张【灵气牌】（若装备此【法术牌】时，已超过凡人境界，则补抽1次【灵气牌】）。",
+      "effects": [
+        {
+          "op": "on_promote_draw_qi",
+          "value": 1,
+          "extraIfAboveMortal": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e9a2a0e58092e4ba94e8a18ce998b5",
+      "name": "颠倒五行阵",
+      "type": "consume",
+      "cost": 2,
+      "realm": 2,
+      "count": 2,
+      "cat": "消耗类法阵",
+      "text": "在对战中对方投掷骰子后使用，强制对方重新投掷1次骰子，且必须接受第2次投掷的结果。",
+      "effects": [
+        {
+          "op": "force_reroll_foe",
+          "event": "roll",
+          "subject": "foe",
+          "phase": "after"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e99d92e58583e58991e8af80",
+      "name": "青元剑诀",
+      "type": "equip",
+      "cost": 2,
+      "realm": 1,
+      "count": 2,
+      "cat": "装备类法术",
+      "text": "（达到对应境界后，对战时，选1个效果触发）炼气期：在对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。筑基期：在对战中投掷骰子后使用，可额外投掷1次骰子，取点数最大值。结丹期：在对战中出牌阶段使用，使本次对战中自身的【战力值】+1。",
+      "tiers": [
+        {
+          "realm": 1,
+          "text": "炼气期：在对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。",
+          "effects": [
+            {
+              "op": "dice_bonus",
+              "value": 1,
+              "cap": 6,
+              "event": "roll",
+              "phase": "before",
+              "subject": "self"
+            }
+          ]
+        },
+        {
+          "realm": 2,
+          "text": "筑基期：在对战中投掷骰子后使用，可额外投掷1次骰子，取点数最大值。",
+          "effects": [
+            {
+              "op": "reroll_dice",
+              "value": 1,
+              "event": "roll",
+              "phase": "after",
+              "subject": "self"
+            }
+          ]
+        },
+        {
+          "realm": 3,
+          "text": "结丹期：在对战中出牌阶段使用，使本次对战中自身的【战力值】+1。",
+          "effects": [
+            {
+              "op": "combat_bonus",
+              "value": 1,
+              "event": "roll",
+              "phase": "before",
+              "subject": "self"
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6,
+          "event": "roll",
+          "phase": "before",
+          "subject": "self"
+        }
+      ],
+      "note": "三档按§7.45「多档位一律自动适配当前境界」自动取档；效果落在卡文自己的时点（投骰前/投骰后/出牌阶段）由窗口询问发动 —— 2026-10-06 用户要求复核装备的场上发动时机，原来那条写死在开战的「对战启用费」已删。**这张牌属于 §7.4 的「卡文没写『装备时不消耗法力值』」那一类 ⇒ 装备时付角标 2 点、效果不再消耗**（所以档位效果上没有 manaCost）。顶层那条是第 0 档的冗余拷贝（effectsOf 按签名去重，不会双倍结算），与【火弹术】同一写法。",
+      "response": true
+    },
+    {
+      "id": "k_e781abe5bcb9e69caf",
+      "name": "火弹术",
+      "type": "consume",
+      "cost": 1,
+      "realm": 0,
+      "count": 2,
+      "cat": "消耗类法术",
+      "text": "对战胜利时，可选择从对方手中抽取2张【宝物牌】或让对方额外受到1点伤害。",
+      "tiers": [
+        {
+          "realm": 0,
+          "text": "对战胜利时，从对方手中抽取2张【宝物牌】。",
+          "effects": [
+            {
+              "op": "win_steal_treasure",
+              "value": 2,
+              "event": "combatResult",
+              "phase": "win"
+            }
+          ]
+        },
+        {
+          "realm": 0,
+          "text": "对战胜利时，让对方额外受到1点伤害。",
+          "effects": [
+            {
+              "op": "win_extra_damage",
+              "value": 1,
+              "event": "combatResult",
+              "phase": "win"
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "op": "win_steal_treasure",
+          "value": 2,
+          "event": "combatResult",
+          "phase": "win"
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e9a38ee781b5e58ab2",
+      "name": "风灵劲",
+      "type": "consume",
+      "cost": 2,
+      "realm": 1,
+      "count": 1,
+      "cat": "法术",
+      "text": "在任意回合使用，让一位发起对战的修士受到1点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "requiresCombat": true,
+          "event": "combatDeclare",
+          "subject": "foe",
+          "target": "attacker"
+        }
+      ],
+      "response": true
+    },
+    {
+      "name": "大衍诀",
+      "type": "equip",
+      "cost": 0,
+      "realm": 1,
+      "count": 2,
+      "cat": "装备类法术",
+      "text": "在自己的回合开始时，额外恢复1点【法力值】。",
+      "effects": [
+        {
+          "op": "mana_regen_bonus",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        }
+      ],
+      "id": "k_e5a4a7e8a18de8af80"
+    },
+    {
+      "name": "天火之术",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，使除你以外的所有修士受到1点伤害。",
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "target": "all_others"
+        }
+      ],
+      "id": "k_e5a4a9e781abe4b98be69caf"
+    },
+    {
+      "name": "传音秘术",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 2,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，抽取1张【同行者】和1张【宝物牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "companion": 1,
+          "treasure": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "id": "k_e4bca0e99fb3e7a798e69caf"
+    },
+    {
+      "name": "牵机之术",
+      "type": "consume",
+      "cost": 1,
+      "realm": 1,
+      "count": 2,
+      "cat": "消耗类法术",
+      "text": "在任意回合使用，当你受到任意伤害时，抽取1张【同行者】。",
+      "effects": [
+        {
+          "op": "draw",
+          "companion": 1,
+          "event": "hurt",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e789b5e69cbae4b98be69caf",
+      "response": true
+    },
+    {
+      "name": "御风诀",
+      "type": "equip",
+      "cost": 2,
+      "realm": 1,
+      "count": 2,
+      "cat": "装备类法术",
+      "text": "在自己的探索阶段时，可额外抽取1张【宝物牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "drawTreasure",
+          "subject": "self",
+          "oncePerTurn": true,
+          "deck": "treasure"
+        }
+      ],
+      "id": "k_e5bea1e9a38ee8af80"
+    },
+    {
+      "name": "拘灵阵",
+      "type": "consume",
+      "cost": 1,
+      "realm": 2,
+      "count": 1,
+      "cat": "消耗类阵法",
+      "text": "在自己的回合使用，下回合内，除你以外的所有修士无法抽取【灵气牌】，也不能使用任何卡牌效果抽取【灵气牌】。",
+      "effects": [
+        {
+          "op": "block_qi_draw",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "「下回合内，除你以外的所有修士无法抽取【灵气牌】，也不能使用任何卡牌效果抽取【灵气牌】」= op block_qi_draw（写进其他人的 blockQiDraw 计数，回合结束递减；gainQiCard 是唯一拦截点，手动炼化与卡牌效果都走它）。",
+      "id": "k_e68b98e781b5e998b5"
+    },
+    {
+      "name": "换形诀",
+      "type": "consume",
+      "cost": 3,
+      "realm": 1,
+      "count": 1,
+      "cat": "消耗类法术",
+      "text": "在自己的回合使用，指定任意一位修士和你交换所有手牌。",
+      "effects": [
+        {
+          "op": "swap_hand",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "「指定任意一位修士和你交换所有手牌」= op swap_hand（出牌那一刻选目标）。",
+      "id": "k_e68da2e5bda2e8af80"
+    },
+    {
+      "name": "大庚剑阵",
+      "type": "equip",
+      "cost": 3,
+      "realm": 1,
+      "count": 1,
+      "cat": "装备类神通",
+      "text": "在对战开始前使用，消耗3点【法力值】，投掷1次骰子，若点数为6，将本次对战结果直接视为获胜。\n学习条件：此神通需搭配【青元剑诀】使用，若无【青元剑诀】的修士抽取到此神通时，需放置回【法术牌】牌堆底部，然后重新抽取1张【法术牌】。",
+      "effects": [
+        {
+          "op": "roll_branch",
+          "event": "combatOpt",
+          "subject": "self",
+          "manaCost": 3,
+          "response": true,
+          "branches": [
+            {
+              "faces": [
+                6
+              ],
+              "effects": [
+                {
+                  "op": "force_win"
+                }
+              ]
+            }
+          ],
+          "else": []
+        }
+      ],
+      "note": "「对战开始前付 3 点法力、掷出 6 则本次对战直接视为获胜」= combatOpt 窗口的 roll_branch → force_win；学习条件 learnRequires:\"青元剑诀\" 在 doChooseDraw 里生效（没搭配牌就放回牌堆底重抽）。",
+      "id": "k_e5a4a7e5ba9ae58991e998b5",
+      "response": true,
+      "learnRequires": "青元剑诀"
+    },
+    {
+      "name": "太妙多宝万华阵",
+      "type": "consume",
+      "cost": 0,
+      "realm": 3,
+      "count": 1,
+      "cat": "消耗类阵法",
+      "text": "在自己的回合使用，投掷1次骰子，若点数为5或6，指定任意一位修士受到2点伤害。",
+      "effects": [
+        {
+          "op": "roll_branch",
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after",
+          "branches": [
+            {
+              "faces": [
+                5,
+                6
+              ],
+              "effects": [
+                {
+                  "op": "damage",
+                  "value": 2
+                }
+              ]
+            }
+          ],
+          "else": []
+        }
+      ],
+      "note": "「掷出 5 或 6，指定任意一位修士受到 2 点伤害」= roll_branch（5/6 支线里是 damage 2，目标在出牌那一刻选）。",
+      "id": "k_e5a4aae5a699e5a49ae5ae9de4b887e58d8ee998b5"
+    },
+    {
+      "name": "七鬼噬魂术",
+      "type": "consume",
+      "cost": 0,
+      "realm": 0,
+      "count": 1,
+      "cat": "消耗类秘术",
+      "text": "本回合使用任意1张【宝物牌】\\【法术牌】时，不消耗【法力值】，但使自身受到1点伤害。",
+      "effects": [
+        {
+          "op": "free_card_this_turn",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ],
+      "note": "「本回合使用任意 1 张【宝物牌】/【法术牌】时不消耗法力值，但自身受到 1 点伤害」= op free_card_this_turn（doPlay 里把这两类牌的代价清零，打完后落 1 点自伤）。",
+      "id": "k_e4b883e9acbce599ace9ad82e69caf"
+    },
+    {
+      "name": "罗烟步",
+      "type": "equip",
+      "cost": 1,
+      "realm": 0,
+      "count": 2,
+      "cat": "装备类武技",
+      "text": "在对战失败时，投掷1次骰子，若点数为1或6，不受本次对战失败的惩罚，且恢复1点【法力值】（对方在本次对战中，仍视为获胜）。",
+      "effects": [
+        {
+          "op": "lose_save_dice",
+          "faces": [
+            1,
+            6
+          ],
+          "mana": 1,
+          "event": "combatResult",
+          "phase": "lose",
+          "subject": "self",
+          "auto": true
+        }
+      ],
+      "note": "「失败时掷出 1 或 6 免罚，且恢复 1 点法力值」—— 免罚走现有 lose_save_dice（faces 1/6），新增的 mana 参数**只在免罚成功时**回法力。",
+      "id": "k_e7bd97e7839fe6ada5"
+    }
+  ],
+  "companion": [
+    {
+      "id": "k_e5af92e89b9f",
+      "name": "寒蛟",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "absorb": 1,
+      "text": "●此【同行者】可替你承受任意1次伤害，之后此【同行者】放入【弃牌堆】。 ●在对战获胜时，对方下回合不能抽取1张【同行者】/【法术牌】。 ●若和【同行者·离龟】一起放置，在对战时，【战力值】+1。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "if": {
+            "companion": "离龟"
+          },
+          "value": 1
+        },
+        {
+          "op": "block_draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "deck": "spell"
+        },
+        {
+          "op": "block_draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "deck": "companion"
+        }
+      ]
+    },
+    {
+      "id": "k_e99fa9e7ab8b",
+      "name": "韩立",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●在自己的探索阶段时，可额外抽取1张【宝物牌】。 ●在对战获胜时，可将对方【储物袋】上的任意1张【装备类宝物牌】加入自己手牌。 ●在晋升【结丹/元婴】境界时，可额外投掷1次骰子。",
+      "effects": [
+        {
+          "op": "draw",
+          "deck": "treasure",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        },
+        {
+          "op": "reroll",
+          "scope": "promote",
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        },
+        {
+          "op": "steal_equip",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e7a6bbe9be9f",
+      "name": "离龟",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "absorb": 2,
+      "text": "●此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。 ●放置此【同行者】后，额外获得1次【闭关】机会。",
+      "effects": [
+        {
+          "op": "extra_seclusion",
+          "value": 1,
+          "event": "place",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e69d8ee58c96e58583",
+      "name": "李化元",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●获得1张【法术牌·青云剑诀】，使用【青云剑诀】时，无视境界条件。 ●若【法术牌】中已无【青云剑诀】，将此【同行者】放入【弃牌堆】，并抽取1张【同行者】。",
+      "effects": [
+        {
+          "op": "grant_spell",
+          "name": "青元剑诀",
+          "deck": "spell",
+          "fallback": true,
+          "event": "place",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e585ade7bfbce99c9ce89aa3",
+      "name": "六翼霜蚣",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "text": "●若【生命值】≤3点，在对战时，【战力值】+1。 ●在晋升时，使晋升所需消耗的【灵力值】-1。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "if": {
+            "hp": {
+              "lte": 3
+            }
+          },
+          "value": 1
+        },
+        {
+          "op": "promote_discount",
+          "value": 1,
+          "on": "consume",
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e68595e6b29be781b5",
+      "name": "慕沛灵",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●每回合额外恢复1点【法力值】。 ●当你受到任意伤害时，立即恢复1点【法力值】。",
+      "effects": [
+        {
+          "op": "mana_regen_bonus",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        },
+        {
+          "op": "mana",
+          "value": 1,
+          "event": "hurt",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e99d92e69893e5b185e5a3ab",
+      "name": "青易居士",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "◆ 在自己的探索阶段时，可选择放弃1张【宝物牌】，改为抽取1张【法术牌】。",
+      "effects": [
+        {
+          "op": "explore_swap",
+          "value": 1,
+          "event": "drawTreasure",
+          "subject": "self",
+          "oncePerTurn": true,
+          "note": "探索阶段可选：原本的「抽2张宝物牌」改为「抽1张宝物牌+1张法术牌」，之后的抉择阶段不受影响。（用户裁定：放弃的是探索所得中的1张宝物牌抽取，不是弃手牌。2026-10-05 阶段事务模型：从 engineDirect 特殊按钮改成探索时点的替换型效果，收势登记、基础行动最后结算）"
+        }
+      ]
+    },
+    {
+      "id": "k_e4b889e79baee8b1b9",
+      "name": "三目豹",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "text": "◆ 若在自己的回合不发起对战，回合结束时，额外恢复1点【法力值】。 ◆ 对战获胜时，让对方将【储物袋】上的任意1张【装备类宝物牌】放入【弃牌堆】(由你指定)。",
+      "effects": [
+        {
+          "op": "turn_no_combat_mana",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        },
+        {
+          "op": "discard_enemy_equip",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e5ae8be78e89",
+      "name": "宋玉",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●在对战获胜时，恢复1点【法力值】，并抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e595bce9ad82",
+      "name": "啼魂",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "absorb": 1,
+      "text": "此【同行者】可替你承受任意1次伤害，之后此【同行者】放入【弃牌堆】。 对战时，【战力值】+1。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "k_e6b8a9e5a4a9e4bb81",
+      "name": "温天仁",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●在对战中使用，消耗3点【法力值】，使对方在本次对战中的【战力值】-1。 ●在对战获胜时，你可以选择对方不扣【生命值】，改为降低2点【灵气值】。 ●在晋升【结丹、元婴】境界时，可额外投掷1次骰子。",
+      "effects": [
+        {
+          "op": "combat_debuff",
+          "value": 1,
+          "manaCost": 3,
+          "event": "combatOpt",
+          "subject": "self"
+        },
+        {
+          "op": "reroll",
+          "scope": "promote",
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        }
+      ],
+      "response": true
+    },
+    {
+      "id": "k_e8a180e78e89e89c98e89b9b",
+      "name": "血玉蜘蛛",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "text": "◆ 首次放置此【同行者】时，抽取3张【宝物牌】。 ◆ 战斗获胜时，恢复2点【法力值】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 2,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true
+        },
+        {
+          "op": "draw",
+          "value": 3,
+          "event": "place",
+          "subject": "self",
+          "auto": true,
+          "deck": "treasure"
+        }
+      ]
+    },
+    {
+      "id": "k_e7b4abe781b5",
+      "name": "紫灵",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "◆ 每回合额外恢复1点【法力值】。 ◆ 在对战中，对方的境界高于你，你的【战力值】+1（最高为6点）。",
+      "effects": [
+        {
+          "op": "mana_regen_bonus",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        },
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "if": {
+            "enemyRealm": {
+              "higher": true
+            }
+          },
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "k_e781abe9be99e7aba5e5ad90",
+      "name": "火龙童子",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "在对战获胜时，恢复4点【法力值】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 4,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e89baee883a1e5ad90",
+      "name": "蛮胡子",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "●若【生命值】≥4点，在对战时，骰子点数+1（最高为6点）。 ●若【生命值】≤3点，在对战时，【战力值】+1。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6,
+          "if": {
+            "hp": {
+              "gte": 4
+            }
+          }
+        },
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "value": 1,
+          "if": {
+            "hp": {
+              "lte": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "k_e6a285e5879d",
+      "name": "梅凝",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "在自己的回合时使用，恢复1点【生命值】并抽取3张【宝物牌】。之后此【同行者】放入【弃牌堆】",
+      "effects": [
+        {
+          "when": "activate",
+          "op": "heal",
+          "value": 1
+        },
+        {
+          "when": "activate",
+          "op": "draw",
+          "value": 3,
+          "deck": "treasure"
+        }
+      ],
+      "activateDiscardSelf": true
+    },
+    {
+      "id": "k_e58d97e5aeabe5a989",
+      "name": "南宫婉",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "absorb": 2,
+      "text": "●每回合可额外恢复1点【法力值】。 ●此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "op": "mana_regen_bonus",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e599ace98791e899ab",
+      "name": "噬金虫",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "text": "◆ 放置此【同行者】后，你的手中最多可保存7张【宝物牌】（此【同行者】放入【弃牌堆】时，则恢复至6张，多出的【宝物牌】需一起放入【弃牌堆】）。 ◆ 在对战获胜时，抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "op": "hand_limit_bonus",
+          "value": 1,
+          "event": "turnStart",
+          "subject": "self",
+          "auto": true
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e99381e781abe89a81",
+      "name": "铁火蚁",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "灵兽",
+      "absorb": 1,
+      "text": "◆ 首次放置此【同行者】时，抽取1张【灵气牌】。 ◆ 此【同行者】可替你承受任意1次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "place",
+          "subject": "self",
+          "auto": true,
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e99988e5b7a7e580a9",
+      "name": "陈巧倩",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "使用任意1次【补气丹】/【回气丹】时，可选择使效果翻倍，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "when": "passive",
+          "op": "double_card_effect",
+          "names": [
+            "补气丹",
+            "回气丹"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_e58583e791b6",
+      "name": "元瑶",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "当你的【生命值】仅剩1点或0点时，恢复2点【生命值】，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "op": "low_hp_rescue",
+          "if": {
+            "hp": {
+              "lte": 1
+            }
+          },
+          "value": 2,
+          "discardSelf": true,
+          "event": "lowHp",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e69687e6809de69c88",
+      "name": "文思月",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "晋升时，可额外抽取1张【宝物牌】和1张【法术牌】。",
+      "effects": [
+        {
+          "op": "draw",
+          "treasure": 1,
+          "spell": 1,
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e993b6e69c88",
+      "name": "银月",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "器灵",
+      "text": "◆ 每回合1次，装备任意【装备类宝物牌】时，抽取1张【灵气牌】。◆ 当【储物袋】中有任意【装备类宝物牌】，在对战时，可额外投掷1次骰子，取最大值。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "reroll_dice",
+          "value": 1,
+          "if": {
+            "hasEquip": true
+          }
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "equip",
+          "subject": "self",
+          "auto": true,
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e9929fe58dabe5a898",
+      "name": "钟卫娘",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "absorb": 1,
+      "text": "◆ 使用超过当前境界的【宝物牌】时，投掷1次骰子，点数≥3，不需要额外消耗法力值。◆ 此同行者可替你承受任意1次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "when": "passive",
+          "op": "overreach_dice_save",
+          "min": 3
+        }
+      ]
+    },
+    {
+      "id": "k_e78e84e9aaa8",
+      "name": "玄骨",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 2,
+      "cat": "修士",
+      "text": "◆ 晋升时，所需的【灵气值】-1。◆ 使用任意【宝物牌】/【法术牌】时，【法力值】消耗-1（最低为1）。◆ 此【同行者】需要2个放置位。",
+      "cardCostDiscount": 1,
+      "effects": [
+        {
+          "op": "promote_discount",
+          "value": 1,
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e78e8be89d89",
+      "name": "王蝉",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "对战境界高于你的修士时，【战力值】+1，若对战获胜，抽取1张【灵气牌】。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "combat_bonus",
+          "if": {
+            "enemyRealm": {
+              "higher": true
+            }
+          },
+          "value": 1
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "auto": true,
+          "deck": "qi"
+        }
+      ]
+    },
+    {
+      "id": "k_e8be9be5a682e99fb3",
+      "name": "辛如音",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "晋升时，使晋升所需的【灵气值】消耗-1。",
+      "effects": [
+        {
+          "op": "promote_discount",
+          "value": 1,
+          "on": "consume",
+          "event": "promote",
+          "subject": "self",
+          "phase": "after",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e5878ce78e89e781b5",
+      "name": "凌玉灵",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "◆对战中投掷骰子前使用，使本次对战中骰子点数+1（最高为6点）。◆对战结束后，不论输赢，额外恢复1点【法力值】。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6
+        },
+        {
+          "op": "after_combat_mana",
+          "value": 1,
+          "event": "combatEnd",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e78795e5a682e5aba3",
+      "name": "燕如嫣",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "在任意回合使用，当你受到任意伤害时，立即恢复2点【法力值】。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 2,
+          "event": "hurt",
+          "subject": "self",
+          "auto": true
+        }
+      ]
+    },
+    {
+      "id": "k_e5a2a8e5bda9e78eaf",
+      "name": "墨彩环",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 2,
+      "cat": "修士",
+      "text": "◆若在自己的回合不发起对战，可消耗3点【法力值】恢复1点【生命值】。◆此【同行者】需要2个放置点。",
+      "effects": [
+        {
+          "op": "turn_no_combat_heal",
+          "manaCost": 3,
+          "heal": 1,
+          "event": "turnEnd",
+          "subject": "self",
+          "if": {
+            "hp": {
+              "lte": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "齐云霄",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "cardCostDiscount": 1,
+      "text": "使用任意【宝物牌】\\【法术牌】时，【法力值】消耗-1（最低为1）。",
+      "effects": [],
+      "id": "k_e9bd90e4ba91e99c84",
+      "note": "【使用者守则】「使用任意【宝物牌】/【法术牌】时，法力值消耗 -1（最低为 1）」已实装为常驻字段 cardCostDiscount: 1（与【玄骨】同一套读取点）。"
+    },
+    {
+      "name": "厉飞雨",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "absorb": 2,
+      "text": "此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [],
+      "id": "k_e58e89e9a39ee99ba8",
+      "note": "【使用者守则】「可替你承受任意 2 次伤害」已实装为字段 absorb: 2（与【啼魂】【离龟】同一套替挡机制；效果列本来为空，不是未实装）。"
+    },
+    {
+      "name": "向之礼",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 2,
+      "cat": "修士",
+      "text": "•晋升时，抽取1张【灵气牌】。\n•在对战获胜时，抽取1张【灵气牌】。\n•此【同行者】需要2个放置位",
+      "effects": [
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "promote",
+          "phase": "after",
+          "subject": "self",
+          "auto": true,
+          "deck": "qi"
+        },
+        {
+          "op": "draw",
+          "value": 1,
+          "event": "combatResult",
+          "phase": "win",
+          "subject": "self",
+          "auto": true,
+          "deck": "qi"
+        }
+      ],
+      "id": "k_e59091e4b98be7a4bc"
+    },
+    {
+      "name": "曲魂",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "人傀",
+      "absorb": 2,
+      "text": "此【同行者】可替你承受任意2次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [],
+      "id": "k_e69bb2e9ad82",
+      "note": "【使用者守则】「可替你承受任意 2 次伤害」已实装为字段 absorb: 2（与【啼魂】【离龟】同一套替挡机制；效果列本来为空，不是未实装）。"
+    },
+    {
+      "name": "钟吾",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "当你受到任意伤害时，投掷1次骰子，点数为5、6则抵消该次伤害。",
+      "effects": [
+        {
+          "op": "damage_save_dice",
+          "faces": [
+            5,
+            6
+          ],
+          "event": "hurt",
+          "subject": "self"
+        }
+      ],
+      "id": "k_e9929fe590be",
+      "response": true
+    },
+    {
+      "name": "金魁",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "activateDiscardSelf": true,
+      "text": "使场上任意1张【宝物牌】\\【法术牌】无效，使用此效果后抽取1张【灵气牌】，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "op": "nullify_board_card",
+          "when": "activate",
+          "targetKind": "board"
+        },
+        {
+          "op": "draw_qi",
+          "value": 1,
+          "when": "activate"
+        }
+      ],
+      "note": "「使场上任意 1 张宝物/法术牌无效」= 主动技能 op nullify_board_card（目标是**场上的牌** targetUid；被无效的牌留在场上但效果全停，见 effectsOf 的 nullified 分支）；之后抽 1 张灵气牌；「之后此同行者放入弃牌堆」= activateDiscardSelf:true。",
+      "id": "k_e98791e9ad81"
+    },
+    {
+      "name": "凤帝",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "妖族",
+      "text": "当你主动发起对战时，在对战中投掷骰子阶段时，骰子点数+1（最高为6点）。",
+      "effects": [
+        {
+          "when": "standing",
+          "op": "dice_bonus",
+          "value": 1,
+          "cap": 6,
+          "if": {
+            "attacker": true
+          }
+        }
+      ],
+      "id": "k_e587a4e5b89d"
+    },
+    {
+      "name": "胡月",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "absorb": 1,
+      "text": "◆可放置【同行者】数量额外＋1。（此【同行者】放入【弃牌堆】时，该效果失效，额外放置的【同行者】需一起放入【弃牌堆】。）\n◆此【同行者】可替你承受任意1次伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [],
+      "note": "两条都是字段型：absorb: 1（替你承受 1 次伤害后进弃牌堆）+ companionSlotBonus: 1（可放置同行者数量 +1；它离场时多出来的同行者一起进弃牌堆，见 loseCompanion）。",
+      "id": "k_e883a1e69c88",
+      "companionSlotBonus": 1
+    },
+    {
+      "name": "南陇侯",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "当你成为被对战目标时，若你的骰子点数大于对方，可无视对方所有【装备类宝物牌】。",
+      "effects": [
+        {
+          "op": "ignore_enemy_equips",
+          "when": "standing"
+        }
+      ],
+      "note": "「当你成为被对战目标时，若你的骰子点数大于对方，可无视对方所有【装备类宝物牌】」= 常驻 op ignore_enemy_equips（结算时把对方的**装备**加成清零，同伴加成不受影响；判据用原始骰点）。",
+      "id": "k_e58d97e99987e4beaf"
+    },
+    {
+      "name": "刘靖",
+      "type": "companion",
+      "cost": null,
+      "realm": 0,
+      "count": 1,
+      "slots": 1,
+      "cat": "修士",
+      "text": "当你受到任意伤害时，使对方受到等额伤害，之后此【同行者】放入【弃牌堆】。",
+      "effects": [
+        {
+          "op": "hurt_reflect",
+          "who": "source",
+          "event": "hurt",
+          "subject": "self",
+          "auto": true
+        }
+      ],
+      "note": "「当你受到任意伤害时，使对方受到等额伤害，之后此【同行者】放入【弃牌堆】」= op hurt_reflect（受伤窗口里结算，等额取**待落地的伤害**；反伤本身不再开新窗口）。",
+      "id": "k_e58898e99d96"
+    }
+  ],
+  "qi": [
+    {
+      "id": "k_e6b7b7e69d82e781b5e6b094",
+      "name": "混杂灵气",
+      "type": "qi",
+      "cost": null,
+      "realm": 0,
+      "count": 15,
+      "text": "【灵气值】+1，【法力值】+1。",
+      "effects": [
+        {
+          "op": "mana",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e5a4a9e59cb0e781b5e6b094",
+      "name": "天地灵气",
+      "type": "qi",
+      "cost": null,
+      "realm": 0,
+      "count": 15,
+      "text": "【灵气值】+1，并额外抽取2张【灵气牌】（每回合仅额外抽取1次）。",
+      "effects": [
+        {
+          "op": "draw",
+          "deck": "qi",
+          "value": 2,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e58585e8a395e781b5e6b094",
+      "name": "充裕灵气",
+      "type": "qi",
+      "cost": null,
+      "realm": 0,
+      "count": 15,
+      "text": "【灵气值】+1，并额外抽取1张【灵气牌】（每回合仅额外抽取1次）。",
+      "effects": [
+        {
+          "op": "draw",
+          "deck": "qi",
+          "value": 1,
+          "event": "useCard",
+          "subject": "self",
+          "phase": "after"
+        }
+      ]
+    },
+    {
+      "id": "k_e7a880e89684e781b5e6b094",
+      "name": "稀薄灵气",
+      "type": "qi",
+      "cost": null,
+      "realm": 0,
+      "count": 15,
+      "text": "【灵气值】+1。",
+      "effects": []
+    }
+  ]
+}

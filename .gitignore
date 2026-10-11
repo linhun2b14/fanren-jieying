@@ -1,0 +1,15 @@
+# 大体积参考素材与工具（不入库）
+ref/
+tools/ff/
+
+# 运行日志与临时产物
+logs/
+*.log
+data/_editor-selftest.json
+_tmp-*.cjs
+
+# 卡池自动备份（编辑器/迁移工具留的 10 份滚动备份）
+data/cards.json.bak-*
+
+# 依赖（本项目零 npm 依赖，防御性忽略）
+node_modules/

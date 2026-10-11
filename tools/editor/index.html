@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b0e" />
+  <title>卡牌编辑器 · 凡人修仙传·结婴之战</title>
+  <!-- 复用游戏前端的暗金国风（public/style.css 只读引用，不复制、不改动） -->
+  <link rel="stylesheet" href="/game-style.css" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <div class="ink-bg" aria-hidden="true">
+    <span class="ink-blob b1"></span>
+    <span class="ink-blob b2"></span>
+    <span class="ink-blob b3"></span>
+  </div>
+
+  <header class="ed-top">
+    <div class="ed-brand">
+      <span class="ed-seal">器</span>
+      <h1>卡牌编辑器</h1>
+      <span class="muted">凡人修仙传<span class="dot">·</span>结婴之战</span>
+    </div>
+
+    <div class="ed-file" id="ed-file">
+      <span class="muted">目标卡池</span>
+      <b id="ed-file-path">载入中…</b>
+      <span class="ed-badge" id="ed-file-state">—</span>
+    </div>
+
+    <div class="ed-actions">
+      <button id="btn-save" class="btn btn-gold" type="button" title="先跑三步校验，通过才写盘">保存（先校验）</button>
+      <button id="btn-validate" class="btn btn-cyan" type="button" title="只校验，不写盘">只校验</button>
+      <button id="btn-reload" class="btn btn-ghost" type="button" title="丢弃界面上的改动，重新从磁盘读取">放弃改动 · 重载</button>
+      <button id="btn-regression" class="btn btn-cyan" type="button" title="后台跑引擎侧回归（不跑浏览器 UI）">跑回归 --no-ui</button>
+      <button id="btn-backups" class="btn btn-ghost" type="button">备份列表</button>
+      <button id="btn-sim-toggle" class="btn btn-ghost" type="button" title="效果模拟沙盒：挑阶段/手牌/生命法力 + 对手要发动的牌，就地跑引擎（默认收起，不占地方）">效果模拟 ▸</button>
+        <button id="btn-diff-toggle" class="btn btn-ghost" type="button" title="与磁盘上那一版做字段级对比：改了哪些卡、每个字段从什么变成什么（默认收起）">差异 ▸</button>
+        <button id="btn-bulk-toggle" class="btn btn-ghost" type="button" title="批量改张数：按牌堆/境界/搜索筛出一批卡，整体 +1 / -1 / 设为某个数（默认收起）">批量张数 ▸</button>
+        <button id="btn-balance-toggle" class="btn btn-ghost" type="button" title="拿界面上这份卡池跑多档位对局，看胜率/平手率/卡死局（默认收起）">平衡试跑 ▸</button>
+    </div>
+  </header>
+
+  <div class="ed-notice">
+    <b>改完卡池必须两步才生效：</b>
+    ① 跑回归（<code>node tests\run-all.js --no-ui</code>）→
+    ② <b>重启线上服务</b>（计划任务 <code>FanrenGame</code>：<code>Stop-ScheduledTask</code> → <code>Stop-Process -Id &lt;pid&gt; -Force</code> → <code>Start-ScheduledTask</code>）。
+    <span class="muted">编辑器只改磁盘上的卡池文件，不重启、不触碰线上服务。</span>
+  </div>
+
+  <div class="ed-banner hidden" id="ed-banner"></div>
+
+  <main class="ed-main">
+    <!-- ============ 左：卡池列表 ============ -->
+    <section class="panel ed-col ed-col-list">
+      <h3 class="panel-title">卡池 <span class="muted" id="list-count">—</span></h3>
+      <div class="ed-search">
+        <input id="search" class="input" type="text" placeholder="搜索：牌名 / ID / 卡文 / op" autocomplete="off" spellcheck="false" />
+        <button id="btn-clear-search" class="btn btn-mini btn-ghost" type="button">清空</button>
+      </div>
+      <div class="ed-counts" id="ed-counts"></div>
+      <div class="ed-list-body" id="list"></div>
+    </section>
+
+    <!-- ============ 中：编辑表单 ============ -->
+    <section class="panel ed-col ed-col-form">
+      <h3 class="panel-title">卡面编辑 <span class="muted" id="form-title">从左边选一张牌</span></h3>
+      <div class="ed-form-body" id="form"></div>
+    </section>
+
+    <!-- ============ 右：卡面预览 ============ -->
+    <section class="panel ed-col ed-col-preview">
+      <h3 class="panel-title">卡面预览 <span class="muted">玩家看到的样子</span></h3>
+      <div class="ed-preview-body" id="preview"></div>
+    </section>
+  </main>
+
+  <!-- ============ 差异视图（默认收起：顶栏「差异 ▸」开关）：与磁盘上那一版的字段级对比 ============ -->
+  <section class="panel ed-diff hidden" id="diff-panel">
+    <h3 class="panel-title">
+      与磁盘版本的差异
+      <span class="muted" id="diff-sub">左边是你现在改的，右边是磁盘上那份（载入时的快照）</span>
+      <button id="btn-diff-refresh" class="btn btn-mini btn-cyan" type="button">重新比对</button>
+    </h3>
+    <div class="ed-diff-body" id="diff"></div>
+  </section>
+
+  <!-- ============ 批量改张数（默认收起：顶栏「批量张数 ▸」开关）============ -->
+  <section class="panel ed-bulk hidden" id="bulk-panel">
+    <h3 class="panel-title">
+      批量改张数
+      <span class="muted">按牌堆 / 境界 / 当前搜索筛出一批卡 → 整体 ±1 或设为某个数（保存前只在界面上生效）</span>
+    </h3>
+    <div class="ed-bulk-body" id="bulk">
+      <div class="bulk-row">
+        <span class="bulk-label">牌堆</span>
+        <span id="bulk-decks"></span>
+        <button id="btn-bulk-all" class="btn btn-mini btn-ghost" type="button">全选牌堆</button>
+        <button id="btn-bulk-none" class="btn btn-mini btn-ghost" type="button">全不选</button>
+      </div>
+      <div class="bulk-row">
+        <span class="bulk-label">境界</span>
+        <select id="bulk-realm" class="input">
+          <option value="all">全部境界</option>
+          <option value="0">凡人</option>
+          <option value="1">炼气期</option>
+          <option value="2">筑基期</option>
+          <option value="3">结丹期</option>
+        </select>
+        <label class="fld inline"><input id="bulk-in-search" type="checkbox" /><span>只改当前搜索结果里的</span></label>
+        <label class="fld inline"><input id="bulk-skip-zero" type="checkbox" /><span>跳过"不进牌堆"（张数 0）的卡</span></label>
+      </div>
+      <div class="bulk-row">
+        <span class="bulk-label">操作</span>
+        <button id="btn-bulk-plus" class="btn btn-mini btn-cyan" type="button">全部 ＋1</button>
+        <button id="btn-bulk-minus" class="btn btn-mini btn-cyan" type="button">全部 －1</button>
+        <span class="bulk-label">或设为</span>
+        <input id="bulk-value" class="input" type="number" min="0" max="99" value="3" />
+        <button id="btn-bulk-set" class="btn btn-mini btn-cyan" type="button">设为该值</button>
+      </div>
+      <div class="bulk-row">
+        <span class="bulk-label">命中</span>
+        <b id="bulk-hit">—</b>
+        <button id="btn-bulk-checkall" class="btn btn-mini btn-ghost" type="button">全选命中</button>
+        <button id="btn-bulk-uncheck" class="btn btn-mini btn-ghost" type="button">全不选</button>
+        <button id="btn-bulk-apply" class="btn btn-mini btn-gold" type="button" title="对勾选的卡执行上面选的操作">▶ 应用</button>
+      </div>
+      <div class="bulk-list" id="bulk-preview"></div>
+    </div>
+  </section>
+
+  <!-- ============ 平衡试跑（默认收起：顶栏「平衡试跑 ▸」开关）============ -->
+  <section class="panel ed-balance hidden" id="balance-panel">
+    <h3 class="panel-title">
+      平衡试跑
+      <span class="muted">拿界面上这份卡池（没存盘也生效）跑多档位对局，看胜率 / 平手率 / 卡死局</span>
+      <label class="fld inline"><span>每档局数</span><input id="balance-games" class="input" type="number" min="1" max="200" value="12" /></label>
+      <button id="btn-balance-run" class="btn btn-mini btn-gold" type="button" title="在临时镜像里跑 tests\balance-stats.js（种子固定，同参数两次结果一致）">▶ 跑一轮</button>
+    </h3>
+    <div class="ed-balance-body" id="balance">
+      <p class="muted">还没跑过。局数越多越稳（每档 12 局 ≈ 数秒）。</p>
+    </div>
+  </section>
+
+  <!-- ============ 下：校验 / 回归输出 ============ -->
+  <section class="panel ed-console">
+    <h3 class="panel-title">
+      校验 / 回归输出
+      <span class="muted" id="console-sub">保存前会依次跑：结构预检 → lint-cards → verify-dsl → 数量闸门（80/33/78/60 · 合计 251）</span>
+      <button id="btn-console-clear" class="btn btn-mini btn-ghost" type="button">清空</button>
+    </h3>
+    <div class="ed-console-body" id="console">
+      <p class="muted">还没有输出。改动后点「保存（先校验）」或「只校验」，校验器的原始输出会原样贴在这里。</p>
+    </div>
+  </section>
+
+  <!-- ============ 效果模拟沙盒（默认收起：顶栏「效果模拟 ▸」开关，状态记在 localStorage） ============ -->
+  <section class="panel ed-sim hidden" id="sim-panel">
+    <h3 class="panel-title">
+      效果模拟沙盒
+      <span class="muted" id="sim-sub">挑阶段 / 手牌 / 生命法力 + 对手响应，就地跑引擎 —— 用的是**界面上这份卡池**（没存盘也生效）</span>
+      <button id="btn-sim-run" class="btn btn-mini btn-gold" type="button" title="从零建局 → 按脚本依次执行 → 输出战报">▶ 运行</button>
+      <button id="btn-sim-auto" class="btn btn-mini btn-cyan" type="button" title="把当前开着的窗口放弃掉（追加一条动作并重跑）">放弃当前窗口</button>
+      <button id="btn-sim-reset" class="btn btn-mini btn-ghost" type="button" title="清空动作脚本（局面设置保留）">清空脚本</button>
+    </h3>
+    <div class="ed-sim-body" id="sim">
+      <p class="muted">载入中…</p>
+    </div>
+  </section>
+
+  <footer class="ed-foot">
+    <span id="ed-foot-info">—</span>
+    <span class="muted">零依赖 · 原生 JS · 校验器原样调用（镜像我仓库跑，不碰真实文件）</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

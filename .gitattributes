@@ -1,0 +1,16 @@
+# 统一换行：仓库内一律 LF（Windows 上的 .cmd 需要 CRLF，单独指定）
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# 二进制
+*.png binary
+*.jpg binary
+*.gif binary
+*.mp4 binary
+*.woff2 binary
+
+# 提交视图里折叠自动生成 / 归档类内容
+docs/archive/** linguist-documentation
+docs/卡牌一览.md linguist-generated

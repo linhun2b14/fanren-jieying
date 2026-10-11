@@ -1,0 +1,14 @@
+# 镜像内不需要的东西（构建上下文越小越快）
+.git
+.gitignore
+ref/
+tools/ff/
+logs/
+node_modules/
+docs/
+tests/
+*.md
+data/*.bak-*
+run-fanren.cmd
+Dockerfile
+.dockerignore
